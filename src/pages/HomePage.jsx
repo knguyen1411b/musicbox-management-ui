@@ -67,6 +67,11 @@ export default function HomePage() {
 
           {/* NAVIGATION LINKS (DESKTOP) */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium">
+            <Link to={"pages/gioithieuhethong"}
+             className="text-gray-300 hover:text-white transition"
+            >
+              Giới thiệu hệ thống
+            </Link>
             <a href="#bang-gia" className="text-gray-300 hover:text-white transition">Bảng giá</a>
             <a href="#quy-dinh" className="text-gray-300 hover:text-white transition">Nội quy</a>
             <a href="#vi-tri" className="text-gray-300 hover:text-white transition">Vị trí</a>
