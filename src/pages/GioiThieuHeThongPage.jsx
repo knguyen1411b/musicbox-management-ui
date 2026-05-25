@@ -17,6 +17,7 @@ const links = [
   ['Thuê phòng', '/pages/thuephong'],
   ['Trang cá nhân', '/pages/trangcanhan'],
   ['Trả phòng', '/pages/traphong'],
+  ['Phòng hát', '/pages/phonghat'],
 ];
 
 export default function GioiThieuHeThongPage() {
