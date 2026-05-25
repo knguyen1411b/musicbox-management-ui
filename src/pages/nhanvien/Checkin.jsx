@@ -181,10 +181,6 @@ export default function Checkin() {
         {currentView === 'checkin' && (
           <div id="danhSachPhongView" className="space-y-6 animate-fadeIn">
             <div className="header-top flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl shadow-xl">
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-wider bg-gradient-to-r from-white to-[#c4b5fd] bg-clip-text text-transparent">
-                DANH SÁCH PHÒNG HÁT
-              </h1>
-              
               <div className="filter-bar flex flex-wrap gap-4">
                 <div className="filter-group flex items-center gap-2 bg-white/5 px-3 py-2 rounded-xl border border-white/10">
                   <label className="text-xs sm:text-sm text-slate-300 flex items-center gap-1.5 whitespace-nowrap">
