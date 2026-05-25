@@ -92,17 +92,34 @@ export default function PhonghientaiPage() {
               MUSIC<span className="text-mb-purple-400">BOX</span>
             </span>
           </div>
-          <button
-            onClick={() => setSupportOpen(true)}
-            className="bg-rose-500/20 text-rose-400 border border-rose-500/50 px-4 py-2 rounded-lg text-xs font-bold hover:bg-rose-500 hover:text-white"
-          >
-            GỌI HỖ TRỢ
-          </button>
+
         </div>
       </header>
 
       <main className="max-w-[1440px] mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
         <div className="lg:col-span-4 space-y-6">
+          <div className='space-x-3'>
+            <button
+              onClick={() => setSupportOpen(true)}
+              className="bg-rose-500/20 text-rose-400 border border-rose-500/50 px-4 py-2 rounded-lg text-xs font-bold hover:bg-rose-500 hover:text-white"
+            >
+              GỌI HỖ TRỢ
+            </button>
+
+
+            <Link to={"/pages/phonghat"}>
+            <button
+              className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 px-4 py-2 rounded-lg text-xs font-bold hover:bg-cyan-500 hover:text-white transition"
+            >
+              THAM GIA PHÒNG HÁT
+            </button>
+            </Link>
+          </div>
+
+
+
+
           <div className="glass-card rounded-3xl p-6 border-l-4 border-mb-purple-500">
             <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">
               Đang sử dụng

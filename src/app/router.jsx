@@ -8,6 +8,7 @@ import {
   GioiThieuHeThongPage,
   HomePage,
   LichsuPage,
+  PhongHatPage,
   PhonghientaiPage,
   QuanlybanggiaPage,
   QuanlydichvuPage,
@@ -40,6 +41,7 @@ export default function AppRouter() {
         <Route path="/pages/thuephong" element={<ThuephongPage />} />
         <Route path="/pages/trangcanhan" element={<TrangcanhanPage />} />
         <Route path="/pages/traphong" element={<TraphongPage />} />
+        <Route path="/pages/phonghat" element={<PhongHatPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
