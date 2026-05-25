@@ -7,6 +7,7 @@ import { ArrowUp } from 'lucide-react';
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
 import { Share2 } from 'lucide-react';
 import { CopyCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function PhongHatPage() {
     // 1. Thêm State này vào ngay đầu hàm PhongHatPage()
@@ -87,13 +88,14 @@ export default function PhongHatPage() {
 
             <div className="relative z-10 max-w-7xl mx-auto pb-2 flex items-center justify-between gap-4">
                 {/* NÚT TRỞ VỀ PHÒNG HIỆN TẠI */}
-                <button
-                    onClick={() => alert('Đang quay lại phòng hiện tại...')}
-                    className="flex items-center gap-2 py-2 px-1 text-sm font-medium text-[#c4b5fd] hover:text-white transition-all duration-200 group"
-                >
-                    <ArrowLeft className="w-4 h-4 text-[#8b5cf6] group-hover:-translate-x-1 transition-transform duration-200" />
-                    <span>Trở về phòng hiện tại</span>
-                </button>
+                <Link to="/pages/phonghientai">
+                    <button
+                        className="flex items-center gap-2 py-2 px-1 text-sm font-medium text-[#c4b5fd] hover:text-white transition-all duration-200 group"
+                    >
+                        <ArrowLeft className="w-4 h-4 text-[#8b5cf6] group-hover:-translate-x-1 transition-transform duration-200" />
+                        <span>Trở về phòng hiện tại</span>
+                    </button>
+                </Link>
 
                 {/* HIỂN THỊ TÊN NGƯỜI DÙNG KHI ĐÃ ĐĂNG NHẬP/NHẬP TÊN */}
                 {userName && (
@@ -129,8 +131,8 @@ export default function PhongHatPage() {
                             <button
                                 onClick={handleShareLink}
                                 className={`p-2 rounded-xl border transition-all duration-300 relative group active:scale-95 flex items-center gap-1.5 text-xs font-medium ${copied
-                                        ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400'
-                                        : 'bg-white/5 border-white/10 text-[#c4b5fd] hover:text-white hover:border-[#8b5cf6]/50'
+                                    ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400'
+                                    : 'bg-white/5 border-white/10 text-[#c4b5fd] hover:text-white hover:border-[#8b5cf6]/50'
                                     }`}
                                 title={copied ? "Đã sao chép liên kết!" : "Chia sẻ phòng hát"}
                             >
