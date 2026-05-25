@@ -49,7 +49,7 @@ export default function DangkyPage() {
 
   return (
     <div className="bg-[#1e1b4b] min-h-screen text-white flex items-center justify-center px-6 py-10">
-      <main className="w-full max-w-lg rounded-3xl p-8 border-t border-white/10 bg-white/5 backdrop-blur-xl border border-white/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
+      <main className="w-full max-w-lg rounded-3xl p-8 border-t border-white/10 bg-white/5 backdrop-blur-xl border shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
         <h1 className="text-2xl font-extrabold tracking-tight text-center">Đăng ký tài khoản</h1>
         <p className="text-center text-sm text-gray-300 mt-2">MusicBox System</p>
 
