@@ -222,7 +222,7 @@ export default function PhongHatPage() {
                                     </div>
                                     <div className="flex gap-2">
                                         <button className="p-2 rounded-lg bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white transition-all">
-                                            <Tv className="w-4 h-4 md:w-5 h-5" />
+                                            <Tv className="w-4 h-4 md:w-5 md:h-5" />
                                         </button>
                                     </div>
                                 </div>
