@@ -39,7 +39,7 @@
             overflow: hidden;
         }
 
-        /* 2. SIDEBAR - ĐÃ CHỈNH GIỐNG Y ĐÚC BẢN TRƯỚC */
+        /* 2. SIDEBAR - GIỮ NGUYÊN Y ĐÚC */
         .sidebar {
             width: 260px;
             background: rgba(15, 23, 42, 0.95);
@@ -146,8 +146,9 @@
 
         .header-top {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 25px;
             margin-bottom: 40px;
         }
 
@@ -158,18 +159,44 @@
             padding-left: 15px;
         }
 
-        .btn-login {
-            background: var(--primary);
+        /* THÀNH PHẦN BỘ LỌC */
+        .filter-bar {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            background: var(--surface);
+            padding: 15px 25px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-size: 13px;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        .filter-group select {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            padding: 8px 15px;
+            border-radius: 8px;
             color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 10px;
-            font-weight: bold;
+            outline: none;
             cursor: pointer;
+            font-size: 13px;
             transition: 0.3s;
         }
-        
-        .btn-login:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        .filter-group select:focus {
+            border-color: var(--primary);
+        }
 
         /* 4. GRID PHÒNG */
         .room-grid {
@@ -213,11 +240,28 @@
         }
 
         .room-details { padding: 25px; }
+        
+        .room-title-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
         .room-details h3 { 
-            margin-bottom: 20px; 
-            display: flex; 
-            justify-content: space-between; 
             font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .capacity-info {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .price-row {
@@ -233,7 +277,7 @@
         
         .price-row b { color: var(--primary-light); font-size: 14px; display: block; margin-top: 4px; }
 
-        /* 5. ACTION BOX */
+        /* 5. ACTION BOX & FORMS */
         .btn-rent {
             width: 100%;
             background: transparent;
@@ -284,15 +328,171 @@
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-save:hover { background: var(--primary-dark); }
+
+        /* AREA HIỂN THỊ SAU KHI XÁC NHẬN THUÊ XONG */
+        .active-room-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            margin-top: 15px;
+            padding: 18px;
+            background: rgba(139, 92, 246, 0.06);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            border-radius: 16px;
+            animation: slideDown 0.4s ease;
+        }
+
+        /* KHU VỰC IN VÉ (SẼ ĐƯỢC CHỌN KHI CẦN IN) */
+        .ticket-print-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .qr-wrapper {
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .qr-wrapper img {
+            width: 140px;
+            height: 140px;
+            display: block;
+        }
+
+        .qr-caption {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        /* THANH ĐƯỜNG LINK HIỂN THỊ TRỰC TIẾP TRÊN GIAO DIỆN */
+        .link-display-field {
+            display: flex;
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .link-text-url {
+            flex: 1;
+            padding: 10px 12px;
+            font-size: 12px;
+            color: var(--primary-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            user-select: all;
+        }
+
+        .btn-mini-copy {
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-left: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 0 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-mini-copy:hover {
+            color: white;
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        /* NÚT IN ẤN CHÍNH */
+        .btn-print-large {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: #0f172a;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+        .btn-print-large:hover {
+            opacity: 0.9;
+            box-shadow: 0 0 15px rgba(251, 146, 60, 0.3);
         }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+        /* ========================================================
+           CẤU HÌNH CSS DÀNH RIÊNG CHO LỆNH IN (WINDOW.PRINT)
+           ======================================================== */
+        @media print {
+            body, .sidebar, .main-content, .header-top, .filter-bar, h1, .room-thumb, .price-row, .capacity-info, .room-title-wrapper, .btn-rent, .btn-print-large, .link-display-field {
+                display: none !important; /* Ẩn toàn bộ giao diện phần mềm */
+            }
+            .room-grid {
+                display: block !important;
+            }
+            .room-card {
+                border: none !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                display: none !important; /* Ẩn các card phòng khác */
+            }
+            /* Chỉ hiển thị duy nhất card phòng đang được chọn in */
+            .room-card.printing-target {
+                display: block !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .room-card.printing-target .room-details {
+                padding: 0 !important;
+            }
+            .room-card.printing-target .active-room-box {
+                display: flex !important;
+                background: white !important;
+                color: black !important;
+                border: none !important;
+                padding: 20px !important;
+                align-items: center !important;
+            }
+            .room-card.printing-target .qr-caption {
+                color: black !important;
+                font-size: 18px !important;
+                margin-bottom: 10px !important;
+                font-family: sans-serif !important;
+            }
+            .room-card.printing-target .qr-wrapper {
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+            .room-card.printing-target .qr-wrapper img {
+                width: 220px !important;
+                height: 220px !important;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR ĐÃ ĐỒNG BỘ -->
     <div class="sidebar">
         <div class="brand">MUSICBOX</div>
         
@@ -312,6 +512,7 @@
                 </div>
                 <div class="submenu">
                     <a href="thuephong.html" class="active-link">Thuê phòng</a>
+                    <a href="checkin.html">Check-in đặt phòng</a>
                     <a href="traphong.html">Trả phòng</a>
                 </div>
             </div>
@@ -329,21 +530,46 @@
         </div>
     </div>
 
-    <!-- NỘI DUNG CHÍNH -->
     <div class="main-content">
         <div class="header-top">
             <h1>DANH SÁCH PHÒNG HÁT</h1>
+            
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label><i class="fas fa-filter"></i> Loại phòng:</label>
+                    <select id="typeFilter" onchange="filterRooms()">
+                        <option value="all">Tất cả loại phòng</option>
+                        <option value="VIP">VIP</option>
+                        <option value="Thuường">Thường</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-users"></i> Sức chứa:</label>
+                    <select id="capacityFilter" onchange="filterRooms()">
+                        <option value="all">Tất cả sức chứa</option>
+                        <option value="10">Phòng nhỏ (1-3 người)</option>
+                        <option value="20">Phòng vừa (3-5 người)</option>
+                        <option value="30">Phòng lớn (5-10 người)</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
-        <div class="room-grid">
-            <!-- Phòng 402 -->
-            <div class="room-card">
+        <div class="room-grid" id="roomGrid">
+            
+            <div class="room-card" data-type="VIP" data-capacity="10">
                 <div class="room-thumb">
                     <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=500" alt="Karaoke Room">
                     <span class="status-tag">TRỐNG</span>
                 </div>
                 <div class="room-details">
-                    <h3>Phòng 402 <span style="color:var(--accent); font-size: 12px; font-weight: 800;">VIP</span></h3>
+                    <div class="room-title-wrapper">
+                        <h3>Phòng 402</h3>
+                        <span style="color:var(--accent); font-size: 12px; font-weight: 800;">VIP</span>
+                    </div>
+                    <div class="capacity-info">
+                        <i class="fas fa-user-friends"></i> Sức chứa: 5 người
+                    </div>
                     <div class="price-row">
                         <div>Ngày thường<b>150K/h</b></div>
                         <div>Cuối tuần<b>200K/h</b></div>
@@ -351,23 +577,53 @@
                     </div>
                     <div class="action-box">
                         <button class="btn-rent" onclick="openRentForm(this)">THUÊ PHÒNG NGAY</button>
+                        
                         <div class="rent-form-container">
                             <label style="font-size: 12px; color: var(--text-dim);">Số điện thoại khách hàng:</label>
                             <input type="text" placeholder="Khách vãng lai...">
-                            <button class="btn-save" onclick="handleSave(this)">XÁC NHẬN THUÊ</button>
+                            <button class="btn-save" onclick="handleSave(this, '402')">XÁC NHẬN THUÊ</button>
                         </div>
+
+                        <div class="active-room-box">
+                            <div class="ticket-print-zone">
+                                <span class="qr-caption">MUSICBOX - VÉ PHÒNG 402</span>
+                                <div class="qr-wrapper">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://musicbox.com/room/402" alt="QR Code">
+                                </div>
+                            </div>
+                            
+                            <div style="width: 100%; text-align: left;">
+                                <label style="font-size: 11px; color: var(--text-dim);">Đường dẫn vào phòng:</label>
+                                <div class="link-display-field">
+                                    <span class="link-text-url">https://musicbox.com/room/402</span>
+                                    <button class="btn-mini-copy" onclick="copyTextLink('https://musicbox.com/room/402')" title="Sao chép">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button class="btn-print-large" onclick="triggerPrintAction(this)">
+                                <i class="fas fa-print"></i> IN MÃ QR NGAY
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>
 
-            <!-- Phòng 305 -->
-            <div class="room-card">
+            <div class="room-card" data-type="VIP" data-capacity="5">
                 <div class="room-thumb">
                     <img src="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?q=80&w=500" alt="Karaoke Room">
                     <span class="status-tag">TRỐNG</span>
                 </div>
                 <div class="room-details">
-                    <h3>Phòng 305 <span style="color:var(--accent); font-size: 12px; font-weight: 800;">VIP</span></h3>
+                    <div class="room-title-wrapper">
+                        <h3>Phòng 305</h3>
+                        <span style="color:var(--accent); font-size: 12px; font-weight: 800;">VIP</span>
+                    </div>
+                    <div class="capacity-info">
+                        <i class="fas fa-user-friends"></i> Sức chứa: 8 người
+                    </div>
                     <div class="price-row">
                         <div>Ngày thường<b>180K/h</b></div>
                         <div>Cuối tuần<b>250K/h</b></div>
@@ -375,14 +631,94 @@
                     </div>
                     <div class="action-box">
                         <button class="btn-rent" onclick="openRentForm(this)">THUÊ PHÒNG NGAY</button>
+                        
                         <div class="rent-form-container">
                             <label style="font-size: 12px; color: var(--text-dim);">Số điện thoại khách hàng:</label>
                             <input type="text" placeholder="...">
-                            <button class="btn-save" onclick="handleSave(this)">XÁC NHẬN THUÊ</button>
+                            <button class="btn-save" onclick="handleSave(this, '305')">XÁC NHẬN THUÊ</button>
                         </div>
+
+                        <div class="active-room-box">
+                            <div class="ticket-print-zone">
+                                <span class="qr-caption">MUSICBOX - VÉ PHÒNG 305</span>
+                                <div class="qr-wrapper">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://musicbox.com/room/305" alt="QR Code">
+                                </div>
+                            </div>
+                            
+                            <div style="width: 100%; text-align: left;">
+                                <label style="font-size: 11px; color: var(--text-dim);">Đường dẫn vào phòng:</label>
+                                <div class="link-display-field">
+                                    <span class="link-text-url">https://musicbox.com/room/305</span>
+                                    <button class="btn-mini-copy" onclick="copyTextLink('https://musicbox.com/room/305')" title="Sao chép">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button class="btn-print-large" onclick="triggerPrintAction(this)">
+                                <i class="fas fa-print"></i> IN MÃ QR NGAY
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>
+
+            <div class="room-card" data-type="Thuường" data-capacity="10">
+                <div class="room-thumb">
+                    <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=500" alt="Karaoke Room">
+                    <span class="status-tag">TRỐNG</span>
+                </div>
+                <div class="room-details">
+                    <div class="room-title-wrapper">
+                        <h3>Phòng 101</h3>
+                        <span style="color:var(--text-dim); font-size: 12px; font-weight: 800;">THƯỜNG</span>
+                    </div>
+                    <div class="capacity-info">
+                        <i class="fas fa-user-friends"></i> Sức chứa: 3 người
+                    </div>
+                    <div class="price-row">
+                        <div>Ngày thường<b>100K/h</b></div>
+                        <div>Cuối tuần<b>140K/h</b></div>
+                        <div>Ngày lễ<b>200K/h</b></div>
+                    </div>
+                    <div class="action-box">
+                        <button class="btn-rent" onclick="openRentForm(this)">THUÊ PHÒNG NGAY</button>
+                        
+                        <div class="rent-form-container">
+                            <label style="font-size: 12px; color: var(--text-dim);">Số điện thoại khách hàng:</label>
+                            <input type="text" placeholder="...">
+                            <button class="btn-save" onclick="handleSave(this, '101')">XÁC NHẬN THUÊ</button>
+                        </div>
+
+                        <div class="active-room-box">
+                            <div class="ticket-print-zone">
+                                <span class="qr-caption">MUSICBOX - VÉ PHÒNG 101</span>
+                                <div class="qr-wrapper">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://musicbox.com/room/101" alt="QR Code">
+                                </div>
+                            </div>
+                            
+                            <div style="width: 100%; text-align: left;">
+                                <label style="font-size: 11px; color: var(--text-dim);">Đường dẫn vào phòng:</label>
+                                <div class="link-display-field">
+                                    <span class="link-text-url">https://musicbox.com/room/101</span>
+                                    <button class="btn-mini-copy" onclick="copyTextLink('https://musicbox.com/room/101')" title="Sao chép">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button class="btn-print-large" onclick="triggerPrintAction(this)">
+                                <i class="fas fa-print"></i> IN MÃ QR NGAY
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -398,16 +734,18 @@
             btn.style.display = "none";
         }
 
-        function handleSave(saveBtn) {
+        function handleSave(saveBtn, roomNumber) {
             const container = saveBtn.parentElement;
             const inputVal = container.querySelector('input').value;
             const actionBox = container.parentElement;
             const rentBtn = actionBox.querySelector('.btn-rent');
+            const activeRoomBox = actionBox.querySelector('.active-room-box');
 
             const customer = inputVal.trim() === "" ? "Khách vãng lai" : inputVal;
-            alert("Đã lưu thông tin thuê phòng!\nKhách hàng: " + customer);
+            alert("Đã tiếp nhận yêu cầu thuê Phòng " + roomNumber + " thành công!");
 
             container.style.display = "none";
+            
             rentBtn.style.display = "block";
             rentBtn.innerText = "ĐANG SỬ DỤNG";
             rentBtn.disabled = true;
@@ -419,6 +757,50 @@
             const tag = card.querySelector('.status-tag');
             tag.innerText = "ĐANG BẬN";
             tag.style.background = "var(--danger)";
+
+            activeRoomBox.style.display = "flex";
+        }
+
+        // Sao chép nhanh đường dẫn Text link
+        function copyTextLink(textValue) {
+            navigator.clipboard.writeText(textValue).then(() => {
+                alert("Đã copy link phòng: " + textValue);
+            });
+        }
+
+        // Xử lý hành động gọi lệnh in nhanh từ máy tính / máy in bill
+        function triggerPrintAction(btnElement) {
+            const currentCard = btnElement.closest('.room-card');
+            
+            // Thêm class đánh dấu mục tiêu in để CSS ẩn mọi thứ khác đi
+            currentCard.classList.add('printing-target');
+            
+            // Gọi lệnh in của hệ thống
+            window.print();
+            
+            // Sau khi đóng cửa sổ in, xóa class đánh dấu để giao diện phần mềm quay lại bình thường
+            currentCard.classList.remove('printing-target');
+        }
+
+        /* BỘ LỌC PHÒNG */
+        function filterRooms() {
+            const typeValue = document.getElementById('typeFilter').value;
+            const capacityValue = document.getElementById('capacityFilter').value;
+            const roomCards = document.querySelectorAll('.room-card');
+
+            roomCards.forEach(card => {
+                const roomType = card.getAttribute('data-type');
+                const roomCapacity = card.getAttribute('data-capacity');
+
+                const matchesType = (typeValue === 'all' || roomType === typeValue);
+                const matchesCapacity = (capacityValue === 'all' || roomCapacity === capacityValue);
+
+                if (matchesType && matchesCapacity) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
     </script>
 </body>

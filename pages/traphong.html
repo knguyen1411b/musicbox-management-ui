@@ -177,34 +177,34 @@
             outline: none; 
         }
         .filter-select { 
-    flex: 1; 
-    background: rgba(15, 23, 42, 0.8); /* Màu nền tối sâu */
-    border: 1px solid var(--border); 
-    padding: 12px; 
-    border-radius: 10px; 
-    color: var(--primary-light); /* Chữ màu tím nhạt cho sang */
-    cursor: pointer;
-    outline: none;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    appearance: none; /* Xóa bỏ style mặc định của trình duyệt */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23c4b5fd'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='C19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-}
+            flex: 1; 
+            background: rgba(15, 23, 42, 0.8); 
+            border: 1px solid var(--border); 
+            padding: 12px; 
+            border-radius: 10px; 
+            color: var(--primary-light); 
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            appearance: none; 
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23c4b5fd'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='C19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+        }
 
-.filter-select:hover {
-    border-color: var(--primary);
-    background-color: rgba(30, 41, 59, 1);
-    box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
-}
+        .filter-select:hover {
+            border-color: var(--primary);
+            background-color: rgba(30, 41, 59, 1);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+        }
 
-.filter-select option {
-    background: #1e293b; /* Màu nền của menu xổ xuống */
-    color: white;
-    padding: 10px;
-}
+        .filter-select option {
+            background: #1e293b; 
+            color: white;
+            padding: 10px;
+        }
 
         /* ROOM GRID */
         .room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
@@ -244,32 +244,129 @@
         .btn-check-out:hover { background: #dc2626; transform: scale(1.02); }
 
         /* MODAL INVOICE */
-        .invoice-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:none; justify-content:center; align-items:center; z-index:9999; backdrop-filter: blur(5px); }
-        .invoice-card { background:#fff; color:#333; width:550px; padding:40px; border-radius:16px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
-        .inv-header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #333; padding-bottom: 15px; }
-        .inv-header h2 { font-size: 20px; font-weight: 800; margin-bottom: 5px; color: #000; }
-        .inv-header p { font-size: 13px; color: #666; }
-        .inv-info { margin-bottom: 20px; font-size: 14px; line-height: 1.8; }
+        .invoice-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:none; justify-content:center; align-items:center; z-index:9999; backdrop-filter: blur(5px); }
+        .invoice-card { background:#fff; color:#333; width:550px; padding:35px 40px; border-radius:16px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); max-height: 95vh; overflow-y: auto; }
+        .inv-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 12px; }
+        .inv-header h2 { font-size: 20px; font-weight: 800; margin-bottom: 5px; color: #000; letter-spacing: 1px; }
+        .inv-header p { font-size: 12px; color: #666; margin-bottom: 2px; }
+        .inv-info { margin-bottom: 15px; font-size: 13.5px; line-height: 1.7; }
         .inv-info b { color: #000; }
-        .inv-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        .inv-table th { border-bottom: 2px solid #eee; padding: 10px 5px; text-align: left; font-size: 12px; color: #888; text-transform: uppercase; }
-        .inv-table td { padding: 12px 5px; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
+        .inv-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        .inv-table th { border-bottom: 2px solid #eee; padding: 8px 5px; text-align: left; font-size: 11px; color: #888; text-transform: uppercase; }
+        .inv-table td { padding: 10px 5px; border-bottom: 1px solid #f5f5f5; font-size: 13.5px; }
         .text-right { text-align: right; }
-        .inv-summary { border-top: 2px solid #333; padding-top: 15px; }
-        .sum-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
-        .points-row input { width: 70px; padding: 5px; border: 1px solid #ccc; border-radius: 4px; text-align: center; }
-        .total-pay { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc; font-size: 22px; font-weight: 900; color: #d32f2f; }
-        .inv-actions { display: flex; gap: 10px; margin-top: 30px; }
-        .btn-print { flex: 2; background: #000; color: #fff; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .btn-close-inv { flex: 1; background: #f3f4f6; color: #333; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .inv-summary { border-top: 2px solid #333; padding-top: 12px; }
+        .sum-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13.5px; align-items: center; }
+        .points-row input { width: 70px; padding: 4px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-weight: bold; }
+        .total-pay { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #ccc; font-size: 20px; font-weight: 900; color: #d32f2f; }
+        
+        /* KHU VỰC QR CODE TRONG HÓA ĐƠN */
+        .inv-qrcode-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e1;
+            gap: 6px;
+        }
+        .inv-qrcode-zone img {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .inv-qrcode-zone span {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .inv-actions { display: flex; gap: 10px; margin-top: 25px; }
+        .btn-print { flex: 2; background: #000; color: #fff; border: none; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        .btn-print:hover { opacity: 0.9; }
+        .btn-close-inv { flex: 1; background: #f3f4f6; color: #333; border: none; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-close-inv:hover { background: #e5e7eb; }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+        /* ==========================================
+           CẤU HÌNH CSS KHI IN ẤN CHÍNH XÁC (ĐÃ SỬA LỖI TRẮNG GIAO DIỆN)
+           ========================================== */
+        @media print {
+            /* 1. Ẩn toàn bộ các phần nền giao diện phần mềm phía ngoài */
+            .sidebar, .main-content, .inv-actions {
+                display: none !important;
+            }
+            
+            /* 2. Ép buộc body hiển thị lại màu trắng bình thường để máy in bill hoạt động */
+            body {
+                background: #ffffff !important;
+                background-image: none !important;
+                color: #000000 !important;
+                display: block !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            /* 3. Cấu hình đưa ô Modal Hóa đơn ra toàn màn hình in */
+            .invoice-overlay {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                background: #ffffff !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: flex-start !important;
+                backdrop-filter: none !important;
+            }
+
+            /* 4. Định dạng lại thẻ nội dung hóa đơn để in chữ đen nền trắng đẹp mắt */
+            .invoice-card {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-shadow: none !important;
+                padding: 10px !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+                max-height: none !important;
+                overflow: visible !important;
+            }
+
+            /* 5. Tối ưu khu vực QR code khi in */
+            .inv-qrcode-zone {
+                background: #ffffff !important;
+                border: 1px dashed #000000 !important;
+                margin-top: 25px !important;
+            }
+
+            .inv-qrcode-zone img {
+                width: 180px !important;
+                height: 180px !important;
+                box-shadow: none !important;
+            }
+
+            .inv-qrcode-zone span {
+                color: #000000 !important;
+            }
+            
+            .total-pay {
+                color: #000000 !important;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR ĐÃ ĐỒNG BỘ -->
     <div class="sidebar">
         <div class="brand">MUSICBOX</div>
         
@@ -289,6 +386,7 @@
                 </div>
                 <div class="submenu">
                     <a href="thuephong.html">Thuê phòng</a>
+                    <a href="checkin.html">Check-in đặt phòng</a>
                     <a href="traphong.html" class="active-link">Trả phòng</a>
                 </div>
             </div>
@@ -306,7 +404,6 @@
         </div>
     </div>
 
-    <!-- NỘI DUNG CHÍNH -->
     <div class="main-content">
         <div class="header-top">
             <h1>DANH SÁCH PHÒNG ĐANG HÁT</h1>
@@ -317,21 +414,12 @@
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Tìm theo tên khách hoặc số phòng...">
             </div>
-            <!-- Bộ lọc Tầng -->
-<select class="filter-select">
-    <option value="">Tất cả tầng</option>
-    <option value="1">Tầng 1</option>
-    <option value="2">Tầng 2</option>
-    <option value="3">Tầng 3</option>
-    <option value="4">Tầng 4</option>
-</select>
 
-<!-- Bộ lọc Loại phòng -->
-<select class="filter-select">
-    <option value="">Tất cả loại phòng</option>
-    <option value="thuong">Phòng thường</option>
-    <option value="vip">Phòng VIP</option>
-</select>
+            <select class="filter-select">
+                <option value="">Tất cả loại phòng</option>
+                <option value="thuong">Phòng thường</option>
+                <option value="vip">Phòng VIP</option>
+            </select>
         </div>
 
         <div class="room-grid">
@@ -355,7 +443,6 @@
         </div>
     </div>
 
-    <!-- MODAL HOÁ ĐƠN -->
     <div class="invoice-overlay" id="invoiceOverlay">
         <div class="invoice-card">
             <div class="inv-header">
@@ -402,6 +489,11 @@
                 </div>
             </div>
 
+            <div class="inv-qrcode-zone">
+                <span>Quét mã để thanh toán</span>
+                <img id="invoiceQR" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://musicbox.com/pay?amount=720000%26room=402" alt="QR Thanh toán">
+            </div>
+
             <div class="inv-actions">
                 <button class="btn-print" onclick="window.print()"><i class="fas fa-print"></i> IN HÓA ĐƠN</button>
                 <button class="btn-close-inv" onclick="closeInvoice()">ĐÓNG</button>
@@ -418,8 +510,10 @@
 
         // Xử lý Invoice
         const subtotal = 720000;
+        let currentRoomGlobal = "402";
 
         function openInvoice(room, name, phone) {
+            currentRoomGlobal = room;
             document.getElementById('invRoom').innerText = room;
             document.getElementById('invName').innerText = name;
             document.getElementById('invPhone').innerText = phone;
@@ -435,6 +529,8 @@
         function calculateTotal() {
             const pointsInput = document.getElementById('pointsInput');
             const finalDisplay = document.getElementById('finalTotalDisplay');
+            const qrImage = document.getElementById('invoiceQR');
+            
             let pointsEntered = parseInt(pointsInput.value) || 0;
             let discount = pointsEntered * 10; 
 
@@ -445,6 +541,10 @@
 
             const finalAmount = subtotal - discount;
             finalDisplay.innerText = finalAmount.toLocaleString('vi-VN') + "đ";
+
+            // Cập nhật lại Link data trong QR Code theo số tiền mới sau khi đã giảm trừ điểm
+            const qrDataUrl = `https://musicbox.com/pay?amount=${finalAmount}&room=${currentRoomGlobal}`;
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrDataUrl)}`;
         }
     </script>
 </body>
