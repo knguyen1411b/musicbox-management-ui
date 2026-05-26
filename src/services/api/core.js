@@ -52,12 +52,12 @@ const db = {
     { id: 'r2', code: 'P102', name: 'Phòng 102', type: 'Thường', status: 'Trống' },
     { id: 'r3', code: 'P201', name: 'Phòng 201', type: 'VIP', status: 'Trống' },
   ],
-  history: [
+  bookingHistory: [
     {
       id: 'MB9012',
       roomName: 'Phòng 402',
       roomType: 'VIP',
-      customerName: 'Trần Văn A',
+      customerName: 'Nguyễn Văn A',
       phone: '0901xxx234',
       date: '15/04/2026',
       time: '19:00',
@@ -72,7 +72,7 @@ const db = {
       id: 'MB9011',
       roomName: 'Phòng 101',
       roomType: 'Thường',
-      customerName: 'Lê Thị B',
+      customerName: 'Nguyễn Văn A',
       phone: '0912xxx567',
       date: '14/04/2026',
       time: '20:00',
@@ -87,7 +87,7 @@ const db = {
       id: 'MB9010',
       roomName: 'Phòng 305',
       roomType: 'VIP',
-      customerName: 'Phạm Minh C',
+      customerName: 'Nguyễn Văn A',
       phone: '0988xxx999',
       date: '13/04/2026',
       time: '18:00',
@@ -391,11 +391,11 @@ export async function getDashboardData() {
 }
 export async function getBookingHistory() {
   await delay();
-  return clone(db.history);
+  return clone(db.bookingHistory);
 }
 export async function cancelBooking(id) {
   await delay();
-  const row = db.history.find((x) => x.id === id);
+  const row = db.bookingHistory.find((x) => x.id === id);
   if (!row) throw new Error('Booking not found');
   row.status = 'cancelled';
   row.isArrived = false;
