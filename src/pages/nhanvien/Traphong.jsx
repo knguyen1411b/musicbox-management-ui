@@ -35,7 +35,7 @@ const INITIAL_ROOMS = [
     id: '201',
     type: 'Thường',
     customerName: 'Khách vãng lai',
-    phone: '', 
+    phone: '',
     timeIn: '16:00',
     ThoiGianDuKienRa: null,
     roomPricePerHour: 80000,
@@ -70,7 +70,7 @@ export default function TraPhongPage() {
 
   // Cập nhật thông tin SĐT khách hàng từ hóa đơn vào state tổng của phòng
   const handleUpdateRoomPhone = (roomId, newPhone) => {
-    setRooms(prevRooms => 
+    setRooms(prevRooms =>
       prevRooms.map(r => r.id === roomId ? { ...r, phone: newPhone } : r)
     );
   };
@@ -197,9 +197,8 @@ function RoomCard({ room, onViewServices, onCheckoutClick }) {
     <div className="bg-[#1e293b]/40 border border-slate-700/60 hover:border-[#8b5cf6]/80 rounded-2xl p-5 flex flex-col justify-between backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:-translate-y-1 shadow-md hover:shadow-[#8b5cf6]/10">
       <div>
         <div className="flex justify-between items-center mb-4">
-          <span className={`px-2.5 py-1 rounded-lg font-extrabold text-xs tracking-wider ${
-            room.type === 'VIP' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30'
-          }`}>
+          <span className={`px-2.5 py-1 rounded-lg font-extrabold text-xs tracking-wider ${room.type === 'VIP' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30'
+            }`}>
             PHÒNG {room.id} - {room.type}
           </span>
           <span className="text-emerald-400 font-extrabold text-[11px] uppercase tracking-wider flex items-center gap-1.5 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
@@ -414,10 +413,10 @@ function CheckoutConfirmModal({ room, onClose, onConfirm }) {
 function InvoiceModal({ room, onClose, onUpdatePhone }) {
   const [phoneNumber, setPhoneNumber] = useState(room.phone || '');
   const [qrUrl, setQrUrl] = useState('');
-  
+
   // THÊM RIÊNG: Khởi tạo mã hóa đơn ngẫu nhiên khi mở modal (hoặc lấy từ room.invoiceId nếu có)
   const [invoiceId] = useState(() => room.invoiceId || `HD-${Math.random().toString(36).substring(2, 7).toUpperCase()}`);
-  
+
   // Giả lập điểm sẵn có của khách (Tỷ lệ 1:1 -> 50.000đ)
   const [availablePoints, setAvailablePoints] = useState(50000);
   const [isUsingPoints, setIsUsingPoints] = useState(false);
@@ -519,67 +518,51 @@ function InvoiceModal({ room, onClose, onUpdatePhone }) {
         </div>
 
         {/* Khối tính tiền - Tích điểm & Nhập SĐT */}
-        <div className="border-t border-white/20 pt-4 space-y-3 print:border-slate-800">
-          
-          {/* FORM NHẬP SĐT DÀNH CHO PHÒNG CHƯA CÓ SĐT */}
-          {!room.phone && (
-            <div className="bg-violet-500/10 border border-violet-500/20 p-3 rounded-xl space-y-2 print:hidden">
-              <label className="text-xs font-bold text-violet-300 uppercase tracking-wider flex items-center gap-1.5">
-                <i className="fas fa-mobile-alt"></i> Khách chưa đăng ký hội viên tích điểm:
-              </label>
-              <input
-                type="text"
-                placeholder="Nhập số điện thoại để tích điểm ngay..."
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm font-semibold text-white placeholder-slate-500 focus:outline-none focus:border-[#8b5cf6] transition"
-              />
-            </div>
-          )}
-
-          <div className="flex justify-between text-sm">
-            <span className="text-slate-400 print:text-slate-600">Tạm tính (Phòng + DV):</span>
-            <b className="text-white font-bold print:text-black">{room.subtotal.toLocaleString('vi-VN')}đ</b>
-          </div>
-
-          {/* ACTIVE TOGGLE BAR SỬ DỤNG ĐIỂM (1:1) */}
-          <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 flex flex-col gap-2 print:hidden">
-            <div className="flex justify-between items-center">
-              <div className="text-sm">
-                <span className="text-slate-300 block font-semibold">Sử dụng điểm tích lũy</span>
-                <span className="text-xs text-slate-400">Khả dụng: <strong className="text-amber-400">{availablePoints.toLocaleString('vi-VN')}đ</strong></span>
-              </div>
-              
-              {/* Nút Gạt */}
-              <button
-                type="button"
-                onClick={() => setIsUsingPoints(!isUsingPoints)}
-                className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ease-in-out focus:outline-none ${
-                  isUsingPoints ? 'bg-emerald-500' : 'bg-slate-600'
-                }`}
-              >
-                <div
-                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ease-in-out ${
-                    isUsingPoints ? 'translate-x-6' : 'translate-x-0'
-                  }`}
-                />
-              </button>
+        {room.phone && (
+          <div className="border-t border-white/20 pt-4 space-y-3 print:border-slate-800">
+            <div className="flex justify-between text-sm">
+              <span className="text-slate-400 print:text-slate-600">Tạm tính (Phòng + DV):</span>
+              <b className="text-white font-bold print:text-black">{room.subtotal.toLocaleString('vi-VN')}đ</b>
             </div>
 
-            {/* Chi tiết khấu trừ hiển thị khi bật */}
-            {isUsingPoints && (
-              <div className="text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2.5 py-1.5 rounded-lg flex justify-between">
-                <span><i className="fas fa-check-circle mr-1"></i> Khấu trừ: <b>{pointsUsed.toLocaleString('vi-VN')}đ</b></span>
-                <span>Còn lại: <b>{(availablePoints - pointsUsed).toLocaleString('vi-VN')}đ</b></span>
-              </div>
-            )}
-          </div>
+            {/* ACTIVE TOGGLE BAR SỬ DỤNG ĐIỂM (1:1) */}
+            <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 flex flex-col gap-2 print:hidden">
+              <div className="flex justify-between items-center">
+                <div className="text-sm">
+                  <span className="text-slate-300 block font-semibold">Sử dụng điểm tích lũy</span>
+                  <span className="text-xs text-slate-400">Khả dụng: <strong className="text-amber-400">{availablePoints.toLocaleString('vi-VN')}đ</strong></span>
+                </div>
 
-          <div className="flex justify-between items-center pt-3 border-t border-dashed border-white/10 text-base font-black text-rose-400 print:border-slate-300 print:text-red-600">
-            <span>TỔNG THANH TOÁN:</span>
-            <span className="tracking-tight text-xl text-rose-400 print:text-red-600">{finalPayAmount.toLocaleString('vi-VN')}đ</span>
+                {/* Nút Gạt */}
+                <button
+                  type="button"
+                  onClick={() => setIsUsingPoints(!isUsingPoints)}
+                  className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ease-in-out focus:outline-none ${isUsingPoints ? 'bg-emerald-500' : 'bg-slate-600'
+                    }`}
+                >
+                  <div
+                    className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ease-in-out ${isUsingPoints ? 'translate-x-6' : 'translate-x-0'
+                      }`}
+                  />
+                </button>
+              </div>
+
+              {/* Chi tiết khấu trừ hiển thị khi bật */}
+              {isUsingPoints && (
+                <div className="text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2.5 py-1.5 rounded-lg flex justify-between">
+                  <span><i className="fas fa-check-circle mr-1"></i> Khấu trừ: <b>{pointsUsed.toLocaleString('vi-VN')}đ</b></span>
+                  <span>Còn lại: <b>{(availablePoints - pointsUsed).toLocaleString('vi-VN')}đ</b></span>
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-between items-center pt-3 border-t border-dashed border-white/10 text-base font-black text-rose-400 print:border-slate-300 print:text-red-600">
+              <span>TỔNG THANH TOÁN:</span>
+              <span className="tracking-tight text-xl text-rose-400 print:text-red-600">{finalPayAmount.toLocaleString('vi-VN')}đ</span>
+            </div>
           </div>
-        </div>
+        )}
+
 
         {/* QR Code động */}
         <div className="mt-6 p-4 bg-black/20 border border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center gap-2 print:border-none print:bg-white print:mt-4">
