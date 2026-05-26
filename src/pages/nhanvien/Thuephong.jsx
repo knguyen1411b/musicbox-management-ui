@@ -2,7 +2,7 @@ import CurrentTimeBox from '@/components/CurrentTimeBox';
 import { useState } from 'react';
 
 // Giả định giờ đóng cửa của quán là 24.0 (12h đêm)
-const GIOR_DONG_CUA = 24.0;
+const GIO_DONG_CUA = 24.0;
 
 // DỮ LIỆU MẪU CÁC PHÒNG VỚI LỊCH ĐẶT TRƯỚC (Schedules)
 const INITIAL_ROOMS_DATA = [
@@ -24,7 +24,7 @@ const INITIAL_ROOMS_DATA = [
     capacity: '8',
     img: 'https://images.unsplash.com/photo-1598387993441-a364f854c3e1?q=80&w=500',
     schedules: [
-      { batDau: 16.0, ketThuc: 18.0 } // Sẽ bị ẩn nếu mốc tính toán rơi vào khoảng 16h-18h
+      { batDau: 16.0, ketThuc: 18.0 }
     ]
   },
   {
@@ -39,31 +39,33 @@ const INITIAL_ROOMS_DATA = [
   }
 ];
 
-export default function ThuePhong() {
-  // Mốc thời gian dạng số (float) dùng để chạy thuật toán ẩn/hiển thị phòng
-  const [appliedTime, setAppliedTime] = useState(new Date().getHours() + new Date().getMinutes() / 60);
+// Dữ liệu giả định khách hàng để demo tìm kiếm SĐT nhanh
+const MOCK_CUSTOMERS = [
+  { name: 'Nguyễn Văn A', phone: '0905123456', points: 120 },
+  { name: 'Trần Thị B', phone: '0914987654', points: 45 },
+  { name: 'Lê Hoàng C', phone: '0935111222', points: 350 }
+];
 
-  // --- Trạng thái bộ lọc và phòng ---
+export default function ThuePhong() {
+  const [appliedTime, setAppliedTime] = useState(new Date().getHours() + new Date().getMinutes() / 60);
   const [rooms] = useState(INITIAL_ROOMS_DATA);
   const [typeFilter, setTypeFilter] = useState('all');
   const [capacityFilter, setCapacityFilter] = useState('all');
+
+  // Quản lý trạng thái chi tiết của từng phòng
   const [roomStates, setRoomStates] = useState({});
 
-
-  // HÀNH ĐỘNG: Căn cứ vào giờ hiện tại để tính toán lại lịch trống các phòng
   const handleRefreshAvailableRooms = () => {
     const now = new Date();
-    // setHours(giờ, phút, giây, mili-giây)
     now.setHours(15, 0, 0, 0);
     const floatTime = now.getHours() + (now.getMinutes() / 60);
     setAppliedTime(floatTime);
-    setRoomStates({}); // Reset trạng thái các form đang nhập để cập nhật theo mốc mới
+    setRoomStates({});
     alert("Đã cập nhật danh sách phòng trống theo giờ hiện tại!");
   };
 
-  // Mở form chọn GIỜ RA dự kiến
+  // Kịch bản Bấm "THUÊ PHÒNG NGAY": Hiện Form chọn Khách hàng & Hình thức hát
   const handleOpenRentForm = (roomId, maxOutTime) => {
-    // Mặc định gợi ý giờ ra là +1 tiếng so với giờ hiện tại (nhưng không vượt quá giờ chặn)
     const currentHour = new Date().getHours();
     const defaultOutHour = Math.min(currentHour + 1, Math.floor(maxOutTime));
 
@@ -72,36 +74,38 @@ export default function ThuePhong() {
       [roomId]: {
         ...prev[roomId],
         showForm: true,
+        isRented: false,
+        // Logic chọn khách hàng
+        searchPhone: '',
+        selectedCustomer: null,
+        // Logic chọn hình thức hát
+        rentType: 'tu_do', // Mặc định là Tự do, option còn lại là 'co_dinh'
         outHour: defaultOutHour,
         outMinute: 0
       }
     }));
   };
 
-  const handleConfirmRent = (roomId, maxOutTime) => {
-    const state = roomStates[roomId];
-    const chosenOutTime = parseInt(state?.outHour || 0) + (parseInt(state?.outMinute || 0) / 60);
-
-    // Validate kiểm tra nếu giờ ra nhỏ hơn giờ hiện tại hoặc vượt quá giờ chặn lịch tiếp theo
-    if (chosenOutTime <= appliedTime) {
-      alert("Thời gian ra dự kiến phải lớn hơn thời gian hiện tại!");
-      return;
-    }
-    if (chosenOutTime > maxOutTime) {
-      alert(`Thời gian ra vượt quá khung giờ trống cho phép! Vui lòng chọn trước ${formatHour(maxOutTime)}.`);
-      return;
-    }
-
-    alert(`Đã tiếp nhận vào phòng ${roomId} thành công! Giờ ra dự kiến: ${state.outHour}:${state.outMinute.toString().padStart(2, '0')}`);
-
+  // Logic tìm kiếm SĐT nhanh phục vụ Demo khi gõ
+  const handlePhoneSearch = (roomId, text) => {
+    const found = MOCK_CUSTOMERS.find(c => c.phone.includes(text)) || null;
     setRoomStates(prev => ({
       ...prev,
       [roomId]: {
         ...prev[roomId],
-        showForm: false,
-        isRented: true,
-        expectedCheckout: chosenOutTime,
-        qrUrl: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://musicbox.com/room/${roomId}`
+        searchPhone: text,
+        selectedCustomer: text.length >= 4 ? found : null // Gõ từ 4 số bắt đầu gợi ý luôn khách hàng
+      }
+    }));
+  };
+
+  // Thay đổi Option Giờ hát (Tự do / Cố định)
+  const handleRentTypeChange = (roomId, type) => {
+    setRoomStates(prev => ({
+      ...prev,
+      [roomId]: {
+        ...prev[roomId],
+        rentType: type
       }
     }));
   };
@@ -112,6 +116,41 @@ export default function ThuePhong() {
       [roomId]: {
         ...prev[roomId],
         [field]: parseInt(value)
+      }
+    }));
+  };
+
+  // Kịch bản Bấm OK (XÁC NHẬN VÀO PHÒNG): Đóng form và render thẳng ra QR Vé vào phòng
+  const handleConfirmRent = (roomId, maxOutTime) => {
+    const state = roomStates[roomId];
+    let chosenOutTime = GIO_DONG_CUA; // Nếu tự do thì lấy mặc định mốc chặn hoặc giờ đóng cửa
+
+    if (state?.rentType === 'co_dinh') {
+      chosenOutTime = parseInt(state?.outHour || 0) + (parseInt(state?.outMinute || 0) / 60);
+
+      if (chosenOutTime <= appliedTime) {
+        alert("Thời gian ra dự kiến phải lớn hơn thời gian hiện tại!");
+        return;
+      }
+      if (chosenOutTime > maxOutTime) {
+        alert(`Thời gian ra vượt quá khung giờ trống cho phép! Vui lòng chọn trước ${formatHour(maxOutTime)}.`);
+        return;
+      }
+    }
+
+    const customerName = state?.selectedCustomer ? state.selectedCustomer.name : "Khách vãng lai";
+    const rentTypeText = state?.rentType === 'co_dinh' ? `Cố định (đến ${state.outHour}:${state.outMinute.toString().padStart(2, '0')})` : "Giờ hát tự do";
+
+    alert(`Đã tiếp nhận phòng ${roomId} thành công!\n- Khách hàng: ${customerName}\n- Hình thức: ${rentTypeText}`);
+
+    setRoomStates(prev => ({
+      ...prev,
+      [roomId]: {
+        ...prev[roomId],
+        showForm: false,
+        isRented: true,
+        expectedCheckout: chosenOutTime,
+        qrUrl: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://musicbox.com/room/${roomId}`
       }
     }));
   };
@@ -131,7 +170,6 @@ export default function ThuePhong() {
     }
   };
 
-  // Chuyển đổi số float (16.5) -> Chuỗi hiển thị (16:30)
   const formatHour = (num) => {
     const hours = Math.floor(num);
     const minutes = Math.round((num - hours) * 60);
@@ -141,19 +179,17 @@ export default function ThuePhong() {
   return (
     <div className="min-h-screen bg-[#0f172a] p-4 sm:p-8 lg:p-10 text-slate-200 font-['Plus_Jakarta_Sans',sans-serif] relative overflow-hidden">
 
-      {/* HEADER ĐỒNG BỘ THỜI GIAN THỰC */}
+      {/* HEADER */}
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-wider bg-gradient-to-r from-white to-[#c4b5fd] bg-clip-text text-transparent uppercase">
           Thuê phòng
         </h1>
-        <CurrentTimeBox></CurrentTimeBox>
+        <CurrentTimeBox />
       </header>
 
-      {/* THANH BỘ LỌC & NÚT TÌM PHÒNG TRỐNG THEO GIỜ HIỆN TẠI */}
+      {/* BỘ LỌC */}
       <div className="flex flex-col gap-4 mb-10 print:hidden">
         <div className="flex flex-wrap gap-5 w-full bg-white/5 p-4 rounded-2xl border border-white/10 shadow-lg items-end">
-
-          {/* Bộ lọc Loại phòng */}
           <div className="flex flex-col gap-1.5 flex-1 min-w-[150px]">
             <label className="text-xs text-slate-400 font-bold uppercase tracking-wider">Loại phòng:</label>
             <div className="flex items-center gap-2 bg-white/5 px-3 py-2 rounded-xl border border-white/10">
@@ -169,7 +205,6 @@ export default function ThuePhong() {
             </div>
           </div>
 
-          {/* Bộ lọc Sức chứa */}
           <div className="flex flex-col gap-1.5 flex-1 min-w-[150px]">
             <label className="text-xs text-slate-400 font-bold uppercase tracking-wider">Sức chứa:</label>
             <div className="flex items-center gap-2 bg-white/5 px-3 py-2 rounded-xl border border-white/10">
@@ -185,12 +220,11 @@ export default function ThuePhong() {
             </div>
           </div>
 
-          {/* NÚT TÌM PHÒNG TRỐNG CĂN CỨ VÀO GIỜ HIỆN TẠI */}
           <button
             onClick={handleRefreshAvailableRooms}
             className="bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-xs px-5 h-[42px] rounded-xl transition-all uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-purple-600/20"
           >
-            <i className="fas fa-search"></i> Tìm phòng trống
+            Tìm phòng trống
           </button>
         </div>
 
@@ -199,34 +233,31 @@ export default function ThuePhong() {
         </div>
       </div>
 
-      {/* GRID HIỂN THỊ DANH SÁCH CARD PHÒNG */}
+      {/* GRID CONTAINER */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[30px] print:block">
         {rooms
           .filter(room => (typeFilter === 'all' || room.type === typeFilter) && (capacityFilter === 'all' || room.capacity === capacityFilter))
           .map((room) => {
-            const state = roomStates[room.id] || { showForm: false, isRented: false, outHour: 0, outMinute: 0, expectedCheckout: 0 };
+            const state = roomStates[room.id] || {
+              showForm: false,
+              isRented: false,
+              searchPhone: '',
+              selectedCustomer: null,
+              rentType: 'tu_do',
+              outHour: 0,
+              outMinute: 0,
+              expectedCheckout: 0
+            };
 
-            // === THỰC THI THUẬT TOÁN ĐỀ BÀI ===
-            // 1. Lọc: Xóa các lịch có ketThuc <= mốc giờ áp dụng
             const validSchedules = room.schedules.filter(sch => sch.ketThuc > appliedTime);
-
-            // 2. Sort: Sắp xếp tăng dần theo thời gian bắt đầu
             const sortedSchedules = [...validSchedules].sort((a, b) => a.batDau - b.batDau);
-
-            // 3. Tìm mốc chặn (T_chặn)
             const nextSchedule = sortedSchedules.find(sch => sch.batDau > appliedTime);
-            const tChan = nextSchedule ? nextSchedule.batDau : GIOR_DONG_CUA;
-
-            // 4. Tính số giờ trống khả dụng
+            const tChan = nextSchedule ? nextSchedule.batDau : GIO_DONG_CUA;
             const hasOngoingSchedule = sortedSchedules.some(sch => sch.batDau <= appliedTime && sch.ketThuc > appliedTime);
             const soGioTrong = hasOngoingSchedule ? 0 : (tChan - appliedTime);
 
-            // Ẩn phòng có Số Giờ Trống <= 0 theo đúng nghiệp vụ đầu ra OUTPUT
-            if (soGioTrong <= 0 && !state.isRented) {
-              return null;
-            }
+            if (soGioTrong <= 0 && !state.isRented) return null;
 
-            // Tính số phút đếm ngược còn lại cho tới khi bị chặn lịch
             const minutesLeftToNextBooking = Math.round((tChan - appliedTime) * 60);
 
             return (
@@ -235,7 +266,7 @@ export default function ThuePhong() {
                 id={`room-card-${room.id}`}
                 className={`bg-white/5 border border-white/10 rounded-[20px] overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:border-[#8b5cf6] hover:shadow-[0_15px_35px_rgba(0,0,0,0.3)] print:border-none print:bg-white print:text-black print:shadow-none ${state.isRented ? 'print-target-active' : ''}`}
               >
-                {/* Ảnh cover phòng */}
+                {/* Cover Image */}
                 <div className="h-[140px] relative bg-[#222] print:hidden">
                   <img src={room.img} alt={`Room ${room.id}`} className="w-full h-full object-cover opacity-75" />
                   <span className={`absolute top-[15px] right-[15px] p-[6px_12px] rounded-lg text-[11px] font-black tracking-wider ${state.isRented ? 'bg-red-500 text-white' : 'bg-emerald-500 text-black'}`}>
@@ -243,7 +274,6 @@ export default function ThuePhong() {
                   </span>
                 </div>
 
-                {/* Nội dung chi tiết phòng */}
                 <div className="p-5">
                   <div className="flex justify-between items-center mb-2 print:block">
                     <h3 className="text-lg font-bold text-white print:text-black print:text-2xl">Phòng {room.id}</h3>
@@ -251,20 +281,19 @@ export default function ThuePhong() {
                   </div>
 
                   <div className="text-xs text-[#94a3b8] mb-4 print:text-black">
-                    <i className="fas fa-user-friends"></i> Sức chứa: {room.capacityText}
+                    Sức chứa: {room.capacityText}
                   </div>
 
-                  {/* KHUNG GIỜ KHÁCH SẮP ĐẶT SAU ĐÓ */}
+                  {/* KHUNG GIỜ KHÁCH ĐẶT */}
                   <div className="mb-4 bg-white/5 p-3 rounded-xl border border-white/5 print:hidden">
                     <span className="text-[11px] text-purple-400 block font-bold uppercase mb-1.5 tracking-wider">
-                      <i className="fas fa-calendar-alt"></i> Khung giờ khách đặt sau đó:
+                      Khung giờ khách đặt sau đó:
                     </span>
                     {sortedSchedules.length > 0 ? (
                       <div className="space-y-1">
                         {sortedSchedules.map((sch, idx) => (
                           <div key={idx} className="text-xs text-slate-300">
                             ⏱ <b>{formatHour(sch.batDau)} - {formatHour(sch.ketThuc)}</b>
-                            {sch.batDau === tChan && <span className="text-amber-400 text-[10px] ml-1.5">(Lịch tiếp theo)</span>}
                           </div>
                         ))}
                       </div>
@@ -273,16 +302,10 @@ export default function ThuePhong() {
                     )}
                   </div>
 
-                  {/* THỜI GIAN ĐẾM NGƯỢC CÒN BAO LÂU CÓ LỊCH ĐẶT */}
-                  {!state.isRented && nextSchedule && (
-                    <div className="mb-4 bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs p-2.5 rounded-lg flex items-center gap-2 print:hidden">
-                      <i className="fas fa-hourglass-half animate-pulse"></i>
-                      <span>Còn <b>{minutesLeftToNextBooking} phút</b> nữa tới lịch đặt phòng</span>
-                    </div>
-                  )}
-
-                  {/* KHỐI ĐIỀU KHIỂN ĐẶT PHÒNG */}
+                  {/* ĐIỀU KHIỂN & SỬA ĐỔI THEO KỊCH BẢN DEMO */}
                   <div className="space-y-3">
+
+                    {/* 1. NÚT THUÊ PHÒNG BAN ĐẦU */}
                     {!state.showForm && !state.isRented && (
                       <button
                         onClick={() => handleOpenRentForm(room.id, tChan)}
@@ -292,54 +315,102 @@ export default function ThuePhong() {
                       </button>
                     )}
 
-                    {/* TÍNH NĂNG CHỌN GIỜ VÀ PHÚT RA DỰ KIẾN */}
+                    {/* 2. FORM LUỒNG CHỌN TIẾP THEO (MODAL TRONG CARD) */}
                     {state.showForm && (
-                      <div className="bg-black/30 border border-white/10 p-3.5 rounded-xl flex flex-col gap-3 animate-slideDown print:hidden">
-                        <div className="flex justify-between items-center">
-                          <label className="text-xs text-[#94a3b8] font-bold">Chọn giờ ra dự kiến:</label>
-                          <span className="text-[11px] text-amber-400 font-mono">Trống đến: {formatHour(tChan)}</span>
+                      <div className="bg-black/40 border border-white/10 p-3.5 rounded-xl flex flex-col gap-3.5 animate-slideDown print:hidden">
+
+                        {/* --- KHỐI CHỌN KHÁCH HÀNG THUÊ --- */}
+                        <div className="flex flex-col gap-1">
+                          <label className="text-[11px] text-purple-400 font-bold uppercase tracking-wider">
+                            1. Khách hàng (Tích điểm):
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Nhập SĐT (Ví dụ: 0905...)"
+                            value={state.searchPhone}
+                            onChange={(e) => handlePhoneSearch(room.id, e.target.value)}
+                            className="w-full bg-slate-900 border border-white/10 p-2 rounded-lg text-white text-xs outline-none focus:border-purple-500 placeholder:text-slate-600"
+                          />
+                          {/* Kết quả tìm kiếm nhanh dựa trên kịch bản gõ */}
+                          {state.selectedCustomer ? (
+                            <div className="mt-1 p-2 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs">
+                              ✅ Tìm thấy: <b>{state.selectedCustomer.name}</b> (+{state.selectedCustomer.points} điểm)
+                            </div>
+                          ) : state.searchPhone.length >= 4 ? (
+                            <div className="mt-1 text-[11px] text-amber-400/80 italic">
+                              Khách hàng mới (Tự động tạo tài khoản vãng lai)
+                            </div>
+                          ) : null}
                         </div>
 
-                        <div className="flex gap-2">
-                          {/* Dropdown chọn Giờ */}
-                          <div className="flex-1 flex flex-col gap-1">
-                            <span className="text-[10px] text-slate-400 text-center">Giờ</span>
-                            <select
-                              value={state.outHour}
-                              onChange={(e) => handleOutTimeChange(room.id, 'outHour', e.target.value)}
-                              className="bg-slate-900 border border-white/10 p-2 rounded-lg text-white font-mono text-sm outline-none focus:border-purple-500"
+                        {/* --- KHỐI CHỌN HÌNH THỨC GIỜ HÁT --- */}
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-[11px] text-purple-400 font-bold uppercase tracking-wider">
+                            2. Tùy chọn hình thức hát:
+                          </label>
+                          <div className="grid grid-cols-2 gap-2">
+                            <button
+                              type="button"
+                              onClick={() => handleRentTypeChange(room.id, 'tu_do')}
+                              className={`p-2 rounded-lg text-xs font-medium transition-all ${state.rentType === 'tu_do' ? 'bg-purple-600 text-white border border-transparent' : 'bg-slate-900 text-slate-400 border border-white/5'}`}
                             >
-                              {Array.from({ length: 24 }, (_, i) => i).map(h => (
-                                <option key={h} value={h}>{h.toString().padStart(2, '0')} giờ</option>
-                              ))}
-                            </select>
-                          </div>
-
-                          {/* Dropdown chọn Phút */}
-                          <div className="flex-1 flex flex-col gap-1">
-                            <span className="text-[10px] text-slate-400 text-center">Phút</span>
-                            <select
-                              value={state.outMinute}
-                              onChange={(e) => handleOutTimeChange(room.id, 'outMinute', e.target.value)}
-                              className="bg-slate-900 border border-white/10 p-2 rounded-lg text-white font-mono text-sm outline-none focus:border-purple-500"
+                              Giờ hát tự do
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleRentTypeChange(room.id, 'co_dinh')}
+                              className={`p-2 rounded-lg text-xs font-medium transition-all ${state.rentType === 'co_dinh' ? 'bg-purple-600 text-white border border-transparent' : 'bg-slate-900 text-slate-400 border border-white/5'}`}
                             >
-                              {Array.from({ length: 60 }, (_, i) => i).map(m => (
-                                <option key={m} value={m}>{m.toString().padStart(2, '0')} phút</option>
-                              ))}
-                            </select>
+                              Giờ hát cố định
+                            </button>
                           </div>
                         </div>
 
+                        {/* --- KHỐI CHỌN THỜI GIAN NẾU CHỌN GIỜ CỐ ĐỊNH --- */}
+                        {state.rentType === 'co_dinh' && (
+                          <div className="bg-slate-900/50 p-2.5 rounded-lg border border-white/5 space-y-2 animate-slideDown">
+                            <div className="flex justify-between items-center text-[11px]">
+                              <span className="text-[#94a3b8]">Chọn giờ kết thúc:</span>
+                              <span className="text-amber-400 font-mono">Chặn tối đa: {formatHour(tChan)}</span>
+                            </div>
+                            <div className="flex gap-2">
+                              <div className="flex-1 flex flex-col gap-0.5">
+                                <select
+                                  value={state.outHour}
+                                  onChange={(e) => handleOutTimeChange(room.id, 'outHour', e.target.value)}
+                                  className="w-full bg-slate-900 border border-white/10 p-1.5 rounded text-white font-mono text-xs outline-none focus:border-purple-500"
+                                >
+                                  {Array.from({ length: 24 }, (_, i) => i).map(h => (
+                                    <option key={h} value={h}>{h.toString().padStart(2, '0')} giờ</option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="flex-1 flex flex-col gap-0.5">
+                                <select
+                                  value={state.outMinute}
+                                  onChange={(e) => handleOutTimeChange(room.id, 'outMinute', e.target.value)}
+                                  className="w-full bg-slate-900 border border-white/10 p-1.5 rounded text-white font-mono text-xs outline-none focus:border-purple-500"
+                                >
+                                  {Array.from({ length: 60 }, (_, i) => i).map(m => (
+                                    <option key={m} value={m}>{m.toString().padStart(2, '0')} phút</option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* NÚT SUBMIT ĐỂ TRIGGER HIỆN QR VÉ */}
                         <button
                           onClick={() => handleConfirmRent(room.id, tChan)}
-                          className="bg-purple-600 hover:bg-purple-700 text-white p-2.5 rounded-lg text-xs font-bold transition-all uppercase tracking-wider mt-1"
+                          className="bg-purple-600 hover:bg-purple-700 text-white p-2.5 rounded-xl text-xs font-bold transition-all uppercase tracking-wider mt-1"
                         >
                           XÁC NHẬN VÀO PHÒNG
                         </button>
                       </div>
                     )}
 
-                    {/* VÉ VÀO PHÒNG KHI ĐÃ ĐƯỢC THUÊ THÀNH CÔNG */}
+                    {/* 3. VÉ VÀO PHÒNG KHI BẤM OK THÀNH CÔNG */}
                     {state.isRented && (
                       <div className="bg-[#8b5cf6]/5 border border-[#8b5cf6]/25 p-4 rounded-2xl flex flex-col items-center gap-3 animate-slideDown print:flex print:bg-white print:text-black print:border-none print:p-2">
                         <div className="w-full text-center border-b border-white/10 pb-2 print:border-black">
@@ -378,12 +449,14 @@ export default function ThuePhong() {
                       </div>
                     )}
                   </div>
+
                 </div>
               </div>
             );
           })}
       </div>
 
+      {/* STYLES ĐỒNG BỘ */}
       <style>{`
         @keyframes slideDown {
           from { opacity: 0; transform: translateY(-8px); }
