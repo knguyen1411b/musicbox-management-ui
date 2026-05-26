@@ -86,8 +86,7 @@ export default function QuanLyTaiKhoan() {
       {/* Header */}
       <header className="flex justify-between items-end">
         <div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-white">Quản Lý Bảng Giá</h1>
-          <p className="text-gray-500 mt-2 font-medium">* Lưu ý: Giờ quy đổi sang thập phân (17h30 = 17.5)</p>
+          <h1 className="text-4xl font-extrabold tracking-tight text-white">Quản Lý Tài Khoản</h1>
         </div>
         <button
           onClick={() => handleOpenFormModal()}

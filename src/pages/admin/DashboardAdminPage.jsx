@@ -16,6 +16,30 @@ import { Chart as ChartJS, registerables } from 'chart.js';
 ChartJS.register(...registerables);
 
 
+import { 
+  Chart as ChartJS, 
+  CategoryScale, 
+  LinearScale, // <-- Thằng này chính là thủ phạm gây ra lỗi "linear" is not a registered scale
+  PointElement, 
+  LineElement, 
+  Title, 
+  Tooltip, 
+  Legend, 
+  Filler 
+} from 'chart.js';
+
+// Đăng ký BẮT BUỘC ngay tại file dùng biểu đồ
+ChartJS.register(
+  CategoryScale, 
+  LinearScale, 
+  PointElement, 
+  LineElement, 
+  Title, 
+  Tooltip, 
+  Legend, 
+  Filler
+);
+
 export default function Dashboard() {
   const [openSettings, setOpenSettings] = useState(false);
   const user = { name: 'Nguyễn Văn Quản Lý' };
