@@ -6,7 +6,6 @@ import {
   DichvuPage,
   GioiThieuHeThongPage,
   HomePage,
-  LichsuPage,
   PhongHatPage,
   PhonghientaiPage,
   TrangcanhanPage,
@@ -24,6 +23,10 @@ import QuanLyPhong from '@/pages/admin/QuanLyPhong';
 import QuanLyLoaiPhong from '@/pages/admin/QuanLyLoaiPhong';
 import QuanLyDichVu from '@/pages/admin/QuanLyDichVu';
 import QuanLyBangGia from '@/pages/admin/QuanLyBangGia';
+import ThongTinCaNhan from '@/pages/khachhang/ThongTinCaNhan';
+import LichSuThuePhong from '@/pages/khachhang/LichSuThuePhong';
+import TrangCaNhanPage from '@/pages/khachhang/TrangcanhanPage';
+import LichSuDatPhong from '@/pages/khachhang/LichSuDatPhong';
 
 export default function AppRouter() {
   return (
@@ -33,7 +36,6 @@ export default function AppRouter() {
         <Route path="/pages/gioithieuhethong" element={<GioiThieuHeThongPage />} />
         <Route path="/pages/dangnhap" element={<DangNhapPage />} />
         <Route path="/pages/dangky" element={<DangkyPage />} />
-        <Route path="/pages/lichsu" element={<LichsuPage />} />
         <Route path="/pages/phonghientai" element={<PhonghientaiPage />} />
         <Route path="/pages/DatPhong" element={<DatPhongPage />} />
         <Route path="/pages/trangcanhan" element={<TrangcanhanPage />} />
@@ -63,6 +65,16 @@ export default function AppRouter() {
           <Route path="phong" element={<QuanLyPhong />} />
           <Route path="dichvu" element={<QuanLyDichVu />} />
           <Route path="banggia" element={<QuanLyBangGia />} />
+        </Route>
+
+
+        {/* ================= ĐỊNH TUYẾN LỒNG NHAU CHO TRANG CÁ NHÂN ================= */}
+        <Route path="/pages/trangcanhan" element={<TrangCaNhanPage />}>
+          <Route index element={<LichSuThuePhong />} />
+
+          {/* Các trang chức năng con */}
+          <Route path="info" element={<ThongTinCaNhan />} />
+          <Route path="booking-history" element={<LichSuDatPhong />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -278,7 +278,7 @@ export default function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 class="text-3xl font-black text-white mb-2 uppercase tracking-tight">
+              <h3 className="text-3xl font-black text-white mb-2 uppercase tracking-tight">
                 Ghé thăm <span className="text-[#a78bfa]" style={{ textShadow: '0 0 10px rgba(167, 139, 250, 0.5)' }}>chúng tôi</span>
               </h3>
               <p className="text-gray-400 font-medium">122 Trường Chinh, Phường An Cựu, TP. Huế</p>
