@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import html2canvas from 'html2canvas';
+import QR_DAT_PHONG from '@/assets/imgs/QRDatPhong.png';
+import Logo from '@/components/Logo';
 
 export default function BookingSystem() {
   // --- STATE MANAGEMENT ---
@@ -8,7 +10,7 @@ export default function BookingSystem() {
   const [availableRoom, setAvailableRoom] = useState(null);
   const [bookingDate, setBookingDate] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  
+
   const [filter, setFilter] = useState({
     size: 'Small',
     date: new Date().toISOString().split('T')[0],
@@ -35,7 +37,7 @@ export default function BookingSystem() {
     // Áp dụng style nền đặc trưng của trang từ file HTML cũ
     document.body.style.background = 'radial-gradient(circle at top right, #1e1b4b, #0f172a)';
     document.body.className = 'text-slate-200 min-h-screen p-4 md:p-8';
-    
+
     return () => {
       document.body.style.background = '';
     };
@@ -131,9 +133,9 @@ export default function BookingSystem() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-[10px] uppercase font-bold text-purple-300 mb-2">Loại phòng</label>
-                <select 
+                <select
                   value={filter.size}
-                  onChange={(e) => setFilter({...filter, size: e.target.value})}
+                  onChange={(e) => setFilter({ ...filter, size: e.target.value })}
                   className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 focus:border-purple-500 outline-none text-white"
                 >
                   <option value="Small">Small (2-3 người)</option>
@@ -143,35 +145,35 @@ export default function BookingSystem() {
               </div>
               <div>
                 <label className="block text-[10px] uppercase font-bold text-purple-300 mb-2">Ngày đặt</label>
-                <input 
-                  type="date" 
+                <input
+                  type="date"
                   value={filter.date}
-                  onChange={(e) => setFilter({...filter, date: e.target.value})}
+                  onChange={(e) => setFilter({ ...filter, date: e.target.value })}
                   className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 outline-none focus:border-purple-500 text-white"
                 />
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <label className="block text-[10px] uppercase font-bold text-purple-300 mb-2">Giờ vào</label>
-                  <input 
-                    type="time" 
+                  <input
+                    type="time"
                     value={filter.timeStart}
-                    onChange={(e) => setFilter({...filter, timeStart: e.target.value})}
+                    onChange={(e) => setFilter({ ...filter, timeStart: e.target.value })}
                     className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 outline-none focus:border-purple-500 text-white"
                   />
                 </div>
                 <div>
                   <label className="block text-[10px] uppercase font-bold text-purple-300 mb-2">Giờ ra</label>
-                  <input 
-                    type="time" 
+                  <input
+                    type="time"
                     value={filter.timeEnd}
-                    onChange={(e) => setFilter({...filter, timeEnd: e.target.value})}
+                    onChange={(e) => setFilter({ ...filter, timeEnd: e.target.value })}
                     className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 outline-none focus:border-purple-500 text-white"
                   />
                 </div>
               </div>
               <div className="flex items-end">
-                <button 
+                <button
                   onClick={searchRooms}
                   className="w-full bg-purple-500 hover:bg-purple-700 py-3 rounded-xl font-bold transition-all shadow-lg shadow-purple-500/30 text-white"
                 >
@@ -214,7 +216,7 @@ export default function BookingSystem() {
                     </div>
                   </div>
 
-                  <button 
+                  <button
                     onClick={confirmBooking}
                     className="w-full py-4 rounded-2xl font-black text-[11px] tracking-[0.2em] bg-purple-500 text-white hover:bg-purple-700 transition-all uppercase shadow-lg shadow-purple-500/20"
                   >
@@ -249,20 +251,20 @@ export default function BookingSystem() {
               <div className="space-y-4 mb-8">
                 <div>
                   <label className="block text-[10px] uppercase font-bold text-purple-300 mb-2">Họ và tên khách hàng</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={customer.name}
-                    onChange={(e) => setCustomer({...customer, name: e.target.value})}
+                    onChange={(e) => setCustomer({ ...customer, name: e.target.value })}
                     placeholder="Ví dụ: Nguyễn Văn Anh"
                     className="w-full bg-indigo-950 border border-purple-300/10 rounded-xl px-4 py-3 outline-none focus:border-purple-500 text-white"
                   />
                 </div>
                 <div>
                   <label className="block text-[10px] uppercase font-bold text-purple-300 mb-2">Số điện thoại nhận mã</label>
-                  <input 
-                    type="tel" 
+                  <input
+                    type="tel"
                     value={customer.phone}
-                    onChange={(e) => setCustomer({...customer, phone: e.target.value})}
+                    onChange={(e) => setCustomer({ ...customer, phone: e.target.value })}
                     placeholder="0905 xxx xxx"
                     className="w-full bg-indigo-950 border border-purple-300/10 rounded-xl px-4 py-3 outline-none focus:border-purple-500 text-white"
                   />
@@ -280,14 +282,14 @@ export default function BookingSystem() {
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={processPayment}
                 disabled={isProcessing}
                 className="w-full py-4 bg-purple-500 hover:bg-purple-700 text-white rounded-2xl font-black shadow-xl shadow-purple-500/30 transition-all mb-4 flex items-center justify-center gap-3"
               >
                 {isProcessing ? "ĐANG KẾT NỐI VNPAY..." : "THANH TOÁN QUA VNPAY"}
               </button>
-              <button 
+              <button
                 onClick={() => setStep(1)}
                 className="w-full text-xs text-purple-300 font-bold uppercase tracking-widest hover:text-white transition"
               >
@@ -310,71 +312,93 @@ export default function BookingSystem() {
             <p className="text-purple-300 text-xs mb-6">Mã đã được gửi đến số: {customer.phone}</p>
 
             {/* Capture Area */}
-            <div 
-              id="capture-area" 
+            <div
+              id="capture-area"
               ref={captureAreaRef}
-              className="rounded-[2.5rem] p-8 mb-8 border border-purple-500/30 relative overflow-hidden text-left"
-              style={glassCardStyle}
+              className="rounded-[2.5rem] p-8 mb-8 border border-purple-500/30 relative overflow-hidden text-left shadow-2xl"
+              style={{
+                ...glassCardStyle,
+                background: "linear-gradient(135deg, rgba(30, 27, 75, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%)",
+              }}
             >
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl"></div>
-              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-700/20 rounded-full blur-3xl"></div>
+              {/* Các đốm sáng trang trí */}
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/10 rounded-full blur-[80px]"></div>
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-[80px]"></div>
 
-              <div className="relative z-10">
-                <div className="flex justify-between items-start mb-6">
+              <div className="relative z-10 flex flex-col h-full">
+                {/* Phần Đầu: Mã số & Logo */}
+                <div className="flex justify-between items-start mb-8">
                   <div>
-                    <p className="text-purple-300 uppercase text-[9px] font-black tracking-widest mb-1">Mã đặt phòng</p>
-                    <p className="text-4xl font-black text-white">MB-8899</p>
-                  </div>
-                  <div className="bg-white p-2 rounded-xl w-20 h-20 shadow-lg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#1e1b4b" strokeWidth="2">
-                      <path d="M3 3h5v5H3V3zm13 0h5v5h-5V3zM3 16h5v5H3v-5zm10 0h3v2h-3v-2zm3 3h2v2h-2v-2zm2-3h3v5h-3v-5zm-2 0h2v3h-2v-3zM13 13h2v3h-2v-3zm2 0h3v2h-3v-2zm3 0h3v3h-3v-3zM10 10h1v1h-1v-1zm0 2h1v1h-1v-1z" />
-                    </svg>
+                    <p className="text-[#a78bfa] uppercase text-[10px] font-black tracking-[0.3em] mb-1">
+                      E-Voucher Booking
+                    </p>
+                    <p className="text-4xl font-black text-white tracking-tighter">
+                      MB-<span className="text-[#a78bfa]">8899</span>
+                    </p>
                   </div>
                 </div>
 
-                <div className="space-y-3 border-t border-white/10 pt-6">
-                  <div className="flex justify-between items-center">
-                    <span className="text-purple-300 uppercase text-[10px] font-bold">Khách hàng:</span>
-                    <span className="text-white font-black text-sm">{customer.name}</span>
+                {/* Phần Giữa: Thông tin khách hàng */}
+                <div className="space-y-4 mb-8">
+                  <div className="flex justify-between items-end border-b border-white/5 pb-4">
+                    <div>
+                      <p className="text-purple-400/60 uppercase text-[9px] font-black tracking-widest mb-1">Khách hàng</p>
+                      <p className="text-white font-black text-lg">{customer.name}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-purple-400/60 uppercase text-[9px] font-black tracking-widest mb-1">Loại phòng</p>
+                      <p className="text-[#a78bfa] font-black text-lg uppercase">{filter.size}</p>
+                    </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 py-2">
+                  <div className="grid grid-cols-2 gap-6 bg-white/[0.03] p-4 rounded-2xl border border-white/5">
                     <div>
-                      <p className="text-purple-300 uppercase text-[9px] font-bold mb-1">Ngày sử dụng:</p>
+                      <p className="text-purple-400/60 uppercase text-[9px] font-black tracking-widest mb-1">Ngày sử dụng</p>
                       <p className="text-white font-bold text-sm">{filter.date}</p>
                     </div>
-                    <div>
-                      <p className="text-purple-300 uppercase text-[9px] font-bold mb-1">Loại phòng:</p>
-                      <p className="text-white font-bold text-sm">{filter.size}</p>
+                    <div className="text-right">
+                      <p className="text-purple-400/60 uppercase text-[9px] font-black tracking-widest mb-1">Thời lượng</p>
+                      <p className="text-white font-bold text-sm">{filter.timeStart} — {filter.timeEnd}</p>
                     </div>
                   </div>
+                </div>
 
-                  <div className="bg-purple-500/10 rounded-2xl p-4 border border-purple-500/20">
-                    <p className="text-purple-300 uppercase text-[9px] font-bold mb-2 text-center">Khung giờ đặt chỗ</p>
-                    <div className="flex justify-around items-center">
-                      <div className="text-center">
-                        <p className="text-[9px] text-purple-300 opacity-70">GIỜ VÀO</p>
-                        <p className="text-xl font-black text-white">{filter.timeStart}</p>
-                      </div>
-                      <div className="h-8 w-px bg-purple-500/30"></div>
-                      <div className="text-center">
-                        <p className="text-[9px] text-purple-300 opacity-70">GIỜ RA</p>
-                        <p className="text-xl font-black text-white">{filter.timeEnd}</p>
-                      </div>
+                {/* Đường kẻ đứt đoạn (Perforated Line effect) */}
+                <div className="relative h-px border-t border-dashed border-purple-500/30 my-2 flex justify-between">
+                  <div className="absolute -left-10 -top-2 w-4 h-4 bg-[#0f172a] rounded-full"></div>
+                  <div className="absolute -right-10 -top-2 w-4 h-4 bg-[#0f172a] rounded-full"></div>
+                </div>
+
+                {/* Phần Dưới: QR Code CHÍNH */}
+                <div className="pt-8 flex flex-col items-center">
+                  <div className="relative group">
+                    {/* Glow hiệu ứng cho QR */}
+                    <div className="absolute inset-0 bg-purple-500/20 blur-2xl rounded-full group-hover:bg-purple-500/40 transition-all"></div>
+
+                    <div className="relative bg-white p-3 rounded-[1.5rem] shadow-[0_0_30px_rgba(139,92,246,0.3)]">
+                      <img
+                        src={QR_DAT_PHONG}
+                        alt="QR Booking"
+                        className="w-32 h-32 object-contain"
+                      />
                     </div>
                   </div>
+                  <p className="mt-4 text-[10px] text-purple-300/60 font-bold uppercase tracking-[0.2em]">
+                    Quét mã để check-in tại quầy
+                  </p>
+                </div>
 
-                  <div className="pt-2 flex justify-between items-center opacity-60">
-                    <span className="text-[9px] text-purple-300 uppercase">Ngày đặt hệ thống:</span>
-                    <span className="text-[9px] text-white">{bookingDate}</span>
-                  </div>
+                {/* Chân vé */}
+                <div className="mt-8 pt-4 border-t border-white/5 flex justify-between items-center opacity-40">
+                  <span className="text-[10px] text-purple-300 uppercase tracking-widest">MusicBox System Booking</span>
+                  <span className="text-[12px] text-white font-mono">{bookingDate}</span>
                 </div>
               </div>
             </div>
 
             {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-3 mb-6">
-              <button 
+              <button
                 onClick={downloadTicket}
                 className="flex items-center justify-center gap-2 px-4 py-4 bg-white text-indigo-950 rounded-2xl font-black text-[11px] uppercase hover:bg-purple-300 transition shadow-lg"
               >
@@ -384,7 +408,7 @@ export default function BookingSystem() {
                 Lưu ảnh mã
               </button>
 
-              <a 
+              <a
                 href="../index.html"
                 className="flex items-center justify-center px-4 py-4 bg-purple-700 text-white rounded-2xl font-black text-[11px] uppercase hover:bg-purple-500 transition shadow-lg"
               >
