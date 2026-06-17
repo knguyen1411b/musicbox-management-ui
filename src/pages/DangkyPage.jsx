@@ -40,7 +40,7 @@ export default function DangkyPage() {
         try {
             setLoading(true)
             await registerUser(form)
-            setSuccess('Đăng ký thành công. Đang chuyển sang trang đăng nhập...')
+            setSuccess('Đăng ký thành công. Đang chuyển sang trang đăng nhập…')
             setTimeout(() => navigate('/pages/dangnhap'), 900)
         } catch (err) {
             setError(err.message || 'Đăng ký thất bại.')
@@ -56,49 +56,91 @@ export default function DangkyPage() {
                 <p className="text-center text-sm text-gray-300 mt-2">MusicBox System</p>
 
                 {error && (
-                    <p className="mt-5 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm">
+                    <p
+                        className="mt-5 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm"
+                        role="alert"
+                        aria-live="polite"
+                    >
                         {error}
                     </p>
                 )}
                 {success && (
-                    <p className="mt-5 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-sm">
+                    <p
+                        className="mt-5 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-sm"
+                        aria-live="polite"
+                    >
                         {success}
                     </p>
                 )}
 
                 <form onSubmit={onSubmit} className="space-y-4 mt-6">
-                    <input
-                        value={form.name}
-                        onChange={e => onChange('name', e.target.value)}
-                        placeholder="Họ tên"
-                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm"
-                    />
-                    <input
-                        value={form.phone}
-                        onChange={e => onChange('phone', e.target.value)}
-                        placeholder="Số điện thoại"
-                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm"
-                    />
-                    <input
-                        type="password"
-                        value={form.password}
-                        onChange={e => onChange('password', e.target.value)}
-                        placeholder="Mật khẩu"
-                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm"
-                    />
-                    <input
-                        type="password"
-                        value={form.confirmPassword}
-                        onChange={e => onChange('confirmPassword', e.target.value)}
-                        placeholder="Xác nhận mật khẩu"
-                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm"
-                    />
+                    <label className="block">
+                        <span className="sr-only">Họ tên</span>
+                        <input
+                            name="name"
+                            autoComplete="name"
+                            value={form.name}
+                            onChange={e => onChange('name', e.target.value)}
+                            placeholder="Họ tên…"
+                            className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm focus:border-[#8b5cf6] focus:ring-2 focus:ring-[#8b5cf6]/20"
+                        />
+                    </label>
+                    <label className="block">
+                        <span className="sr-only">Tên đăng nhập</span>
+                        <input
+                            name="username"
+                            autoComplete="username"
+                            spellCheck={false}
+                            value={form.username}
+                            onChange={e => onChange('username', e.target.value)}
+                            placeholder="Tên đăng nhập…"
+                            className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm focus:border-[#8b5cf6] focus:ring-2 focus:ring-[#8b5cf6]/20"
+                        />
+                    </label>
+                    <label className="block">
+                        <span className="sr-only">Số điện thoại</span>
+                        <input
+                            name="phone"
+                            type="tel"
+                            autoComplete="tel"
+                            inputMode="tel"
+                            value={form.phone}
+                            onChange={e => onChange('phone', e.target.value)}
+                            placeholder="Số điện thoại…"
+                            className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm focus:border-[#8b5cf6] focus:ring-2 focus:ring-[#8b5cf6]/20"
+                        />
+                    </label>
+                    <label className="block">
+                        <span className="sr-only">Mật khẩu</span>
+                        <input
+                            name="password"
+                            type="password"
+                            autoComplete="new-password"
+                            value={form.password}
+                            onChange={e => onChange('password', e.target.value)}
+                            placeholder="Mật khẩu…"
+                            className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm focus:border-[#8b5cf6] focus:ring-2 focus:ring-[#8b5cf6]/20"
+                        />
+                    </label>
+                    <label className="block">
+                        <span className="sr-only">Xác nhận mật khẩu</span>
+                        <input
+                            name="confirmPassword"
+                            type="password"
+                            autoComplete="new-password"
+                            value={form.confirmPassword}
+                            onChange={e => onChange('confirmPassword', e.target.value)}
+                            placeholder="Xác nhận mật khẩu…"
+                            className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm focus:border-[#8b5cf6] focus:ring-2 focus:ring-[#8b5cf6]/20"
+                        />
+                    </label>
 
                     <button
+                        type="submit"
                         disabled={loading}
                         className="w-full bg-mb-purple-600 hover:bg-mb-purple-500 rounded-xl py-3 font-bold disabled:opacity-70"
                     >
-                        {loading ? 'Đang xử lý...' : 'Đăng ký'}
+                        {loading ? 'Đang xử lý…' : 'Đăng ký'}
                     </button>
 
                     <p className="text-sm text-center text-gray-300">

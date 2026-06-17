@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import html2canvas from 'html2canvas'
+import { Link } from 'react-router-dom'
 
 import QR_DAT_PHONG from '@/assets/imgs/QRDatPhong.png'
 
@@ -117,12 +118,12 @@ export default function BookingSystem() {
         <>
             {/* Top Navigation */}
             <div className="max-w-6xl mx-auto mb-8 flex justify-between items-center">
-                <a href="../index.html" className="flex items-center gap-2 text-purple-300 hover:text-white transition">
+                <Link to="/" className="flex items-center gap-2 text-purple-300 hover:text-white transition-colors">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
                     </svg>
                     <span className="font-medium text-sm">Quay về trang chủ</span>
-                </a>
+                </Link>
                 <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
                     <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">
@@ -144,9 +145,10 @@ export default function BookingSystem() {
                                     Loại phòng
                                 </label>
                                 <select
+                                    name="roomSize"
                                     value={filter.size}
                                     onChange={e => setFilter({ ...filter, size: e.target.value })}
-                                    className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 focus:border-purple-500 outline-none text-white"
+                                    className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-white"
                                 >
                                     <option value="Small">Small (2-3 người)</option>
                                     <option value="Medium">Medium (4-7 người)</option>
@@ -159,9 +161,11 @@ export default function BookingSystem() {
                                 </label>
                                 <input
                                     type="date"
+                                    name="bookingDate"
+                                    autoComplete="off"
                                     value={filter.date}
                                     onChange={e => setFilter({ ...filter, date: e.target.value })}
-                                    className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 outline-none focus:border-purple-500 text-white"
+                                    className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-white"
                                 />
                             </div>
                             <div className="grid grid-cols-2 gap-2">
@@ -171,9 +175,11 @@ export default function BookingSystem() {
                                     </label>
                                     <input
                                         type="time"
+                                        name="timeStart"
+                                        autoComplete="off"
                                         value={filter.timeStart}
                                         onChange={e => setFilter({ ...filter, timeStart: e.target.value })}
-                                        className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 outline-none focus:border-purple-500 text-white"
+                                        className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-white"
                                     />
                                 </div>
                                 <div>
@@ -182,14 +188,17 @@ export default function BookingSystem() {
                                     </label>
                                     <input
                                         type="time"
+                                        name="timeEnd"
+                                        autoComplete="off"
                                         value={filter.timeEnd}
                                         onChange={e => setFilter({ ...filter, timeEnd: e.target.value })}
-                                        className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 outline-none focus:border-purple-500 text-white"
+                                        className="w-full bg-indigo-950 border border-purple-300/20 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-white"
                                     />
                                 </div>
                             </div>
                             <div className="flex items-end">
                                 <button
+                                    type="button"
                                     onClick={searchRooms}
                                     className="w-full bg-purple-500 hover:bg-purple-700 py-3 rounded-xl font-bold transition-all shadow-lg shadow-purple-500/30 text-white"
                                 >
@@ -212,7 +221,10 @@ export default function BookingSystem() {
                                     <img
                                         src={getRoomImage(filter.size)}
                                         className="w-full h-full object-cover"
-                                        alt="Room type"
+                                        alt={`Phòng loại ${filter.size}`}
+                                        width="400"
+                                        height="192"
+                                        loading="lazy"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-indigo-950 to-transparent"></div>
                                 </div>
@@ -248,6 +260,7 @@ export default function BookingSystem() {
                                     </div>
 
                                     <button
+                                        type="button"
                                         onClick={confirmBooking}
                                         className="w-full py-4 rounded-2xl font-black text-[11px] tracking-[0.2em] bg-purple-500 text-white hover:bg-purple-700 transition-all uppercase shadow-lg shadow-purple-500/20"
                                     >
@@ -288,10 +301,12 @@ export default function BookingSystem() {
                                     </label>
                                     <input
                                         type="text"
+                                        name="customerName"
+                                        autoComplete="name"
                                         value={customer.name}
                                         onChange={e => setCustomer({ ...customer, name: e.target.value })}
-                                        placeholder="Ví dụ: Nguyễn Văn Anh"
-                                        className="w-full bg-indigo-950 border border-purple-300/10 rounded-xl px-4 py-3 outline-none focus:border-purple-500 text-white"
+                                        placeholder="Ví dụ: Nguyễn Văn Anh…"
+                                        className="w-full bg-indigo-950 border border-purple-300/10 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-white"
                                     />
                                 </div>
                                 <div>
@@ -300,10 +315,13 @@ export default function BookingSystem() {
                                     </label>
                                     <input
                                         type="tel"
+                                        name="customerPhone"
+                                        autoComplete="tel"
+                                        inputMode="tel"
                                         value={customer.phone}
                                         onChange={e => setCustomer({ ...customer, phone: e.target.value })}
-                                        placeholder="0905 xxx xxx"
-                                        className="w-full bg-indigo-950 border border-purple-300/10 rounded-xl px-4 py-3 outline-none focus:border-purple-500 text-white"
+                                        placeholder="0905 xxx xxx…"
+                                        className="w-full bg-indigo-950 border border-purple-300/10 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-white"
                                     />
                                 </div>
                             </div>
@@ -320,13 +338,15 @@ export default function BookingSystem() {
                             </div>
 
                             <button
+                                type="button"
                                 onClick={processPayment}
                                 disabled={isProcessing}
                                 className="w-full py-4 bg-purple-500 hover:bg-purple-700 text-white rounded-2xl font-black shadow-xl shadow-purple-500/30 transition-all mb-4 flex items-center justify-center gap-3"
                             >
-                                {isProcessing ? 'ĐANG KẾT NỐI VNPAY...' : 'THANH TOÁN QUA VNPAY'}
+                                {isProcessing ? 'ĐANG KẾT NỐI VNPAY…' : 'THANH TOÁN QUA VNPAY'}
                             </button>
                             <button
+                                type="button"
                                 onClick={() => setStep(1)}
                                 className="w-full text-xs text-purple-300 font-bold uppercase tracking-widest hover:text-white transition"
                             >
@@ -431,7 +451,9 @@ export default function BookingSystem() {
                                         <div className="relative bg-white p-3 rounded-[1.5rem] shadow-[0_0_30px_rgba(139,92,246,0.3)]">
                                             <img
                                                 src={QR_DAT_PHONG}
-                                                alt="QR Booking"
+                                                alt="Mã QR đặt phòng"
+                                                width="128"
+                                                height="128"
                                                 className="w-32 h-32 object-contain"
                                             />
                                         </div>
@@ -454,6 +476,7 @@ export default function BookingSystem() {
                         {/* Action Buttons */}
                         <div className="grid grid-cols-2 gap-3 mb-6">
                             <button
+                                type="button"
                                 onClick={downloadTicket}
                                 className="flex items-center justify-center gap-2 px-4 py-4 bg-white text-indigo-950 rounded-2xl font-black text-[11px] uppercase hover:bg-purple-300 transition shadow-lg"
                             >
@@ -468,12 +491,12 @@ export default function BookingSystem() {
                                 Lưu ảnh mã
                             </button>
 
-                            <a
-                                href="../index.html"
+                            <Link
+                                to="/"
                                 className="flex items-center justify-center px-4 py-4 bg-purple-700 text-white rounded-2xl font-black text-[11px] uppercase hover:bg-purple-500 transition shadow-lg"
                             >
                                 Về trang chủ
-                            </a>
+                            </Link>
                         </div>
 
                         <p className="text-purple-300 text-[10px] italic">

@@ -12,6 +12,47 @@ body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: #0f172a;
     color: white;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: rgba(139, 92, 246, 0.18);
+    touch-action: manipulation;
+}
+
+html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+}
+
+img,
+svg {
+    flex-shrink: 0;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    touch-action: manipulation;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid #a78bfa;
+    outline-offset: 3px;
+}
+
+select {
+    background-color: #1e1b4b;
+    color: white;
 }
 
 .glass {
@@ -49,4 +90,15 @@ body {
 
 .animate-slide-in-right {
     animation: slide-in-right 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

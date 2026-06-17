@@ -70,7 +70,7 @@ export default function PhonghientaiPage() {
         setSupportHistory(await getSupportHistory())
     }
 
-    if (!session) return <div className="min-h-screen bg-[#0f172a] text-white p-8">Đang tải...</div>
+    if (!session) return <div className="min-h-screen bg-[#0f172a] text-white p-8">Đang tải…</div>
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#1e1b4b] to-[#0f172a] text-white">
@@ -84,16 +84,18 @@ export default function PhonghientaiPage() {
                 <div className="lg:col-span-4 space-y-6">
                     <div className="space-x-3">
                         <button
+                            type="button"
                             onClick={() => setSupportOpen(true)}
                             className="bg-rose-500/20 text-rose-400 border border-rose-500/50 px-4 py-2 rounded-lg text-xs font-bold hover:bg-rose-500 hover:text-white"
                         >
                             GỌI HỖ TRỢ
                         </button>
 
-                        <Link to={'/pages/phonghat'}>
-                            <button className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 px-4 py-2 rounded-lg text-xs font-bold hover:bg-cyan-500 hover:text-white transition">
-                                THAM GIA PHÒNG HÁT
-                            </button>
+                        <Link
+                            to={'/pages/phonghat'}
+                            className="inline-flex bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 px-4 py-2 rounded-lg text-xs font-bold hover:bg-cyan-500 hover:text-white transition"
+                        >
+                            THAM GIA PHÒNG HÁT
                         </Link>
                     </div>
 
@@ -107,23 +109,23 @@ export default function PhonghientaiPage() {
                                 Phí dịch vụ: {session.roomPricePerHour.toLocaleString('vi-VN')}đ/h
                             </p>
                         </div>
-                        <div class="bg-white/5 rounded-2xl p-5 space-y-4">
-                            <div class="flex justify-between items-end">
-                                <span class="text-gray-400 text-[10px] uppercase font-bold">Thời gian</span>
+                        <div className="bg-white/5 rounded-2xl p-5 space-y-4">
+                            <div className="flex justify-between items-end">
+                                <span className="text-gray-400 text-[10px] uppercase font-bold">Thời gian</span>
                                 <span
-                                    class="font-mono text-2xl font-bold text-mb-purple-400"
+                                    className="font-mono text-2xl font-bold text-mb-purple-400"
                                     x-text="formattedDuration"
                                 >
                                     01:15:00
                                 </span>
                             </div>
-                            <div class="pt-4 border-t border-white/10 flex justify-between items-end">
-                                <span class="text-gray-400 text-[10px] uppercase font-bold">Tiền phòng</span>
-                                <div class="text-right">
-                                    <span class="text-2xl font-black" x-text="roomTotalFormatted">
+                            <div className="pt-4 border-t border-white/10 flex justify-between items-end">
+                                <span className="text-gray-400 text-[10px] uppercase font-bold">Tiền phòng</span>
+                                <div className="text-right">
+                                    <span className="text-2xl font-black" x-text="roomTotalFormatted">
                                         137,500
                                     </span>
-                                    <span class="text-xs text-gray-500 ml-1">đ</span>
+                                    <span className="text-xs text-gray-500 ml-1">đ</span>
                                 </div>
                             </div>
                         </div>
@@ -163,6 +165,7 @@ export default function PhonghientaiPage() {
                     <div className="grid grid-cols-4 gap-2 bg-white/5 rounded-2xl p-1 border border-white/10">
                         {['all', 'food', 'drink', 'cart'].map(k => (
                             <button
+                                type="button"
                                 key={k}
                                 onClick={() => setTab(k)}
                                 className={`py-2 text-[10px] font-black uppercase tracking-widest rounded-xl ${tab === k ? 'bg-mb-purple-600 text-white' : 'text-gray-400 hover:text-white'}`}
@@ -183,13 +186,21 @@ export default function PhonghientaiPage() {
                             {visibleServices.map(s => (
                                 <div key={s.id} className="glass-card rounded-2xl p-3 flex flex-col">
                                     <div className="aspect-square rounded-xl overflow-hidden mb-3">
-                                        <img src={s.img} className="w-full h-full object-cover" />
+                                        <img
+                                            src={s.img}
+                                            alt={s.name}
+                                            width="300"
+                                            height="300"
+                                            loading="lazy"
+                                            className="w-full h-full object-cover"
+                                        />
                                     </div>
                                     <h4 className="font-bold text-xs mb-1 line-clamp-1">{s.name}</h4>
                                     <p className="text-mb-purple-400 font-bold text-xs mb-3">
                                         {s.price.toLocaleString('vi-VN')}đ
                                     </p>
                                     <button
+                                        type="button"
                                         onClick={() => addToCart(s)}
                                         className="w-full py-2 bg-mb-purple-600 hover:bg-mb-purple-500 rounded-xl text-[10px] font-bold uppercase"
                                     >
@@ -215,6 +226,7 @@ export default function PhonghientaiPage() {
                                     <div className="flex items-center gap-3">
                                         <input
                                             type="checkbox"
+                                            aria-label={`Chọn ${item.name}`}
                                             checked={item.selected}
                                             onChange={e =>
                                                 setCart(prev =>
@@ -224,7 +236,14 @@ export default function PhonghientaiPage() {
                                                 )
                                             }
                                         />
-                                        <img src={item.img} className="w-12 h-12 rounded-lg object-cover" />
+                                        <img
+                                            src={item.img}
+                                            alt={item.name}
+                                            width="48"
+                                            height="48"
+                                            loading="lazy"
+                                            className="w-12 h-12 rounded-lg object-cover"
+                                        />
                                         <div>
                                             <p className="text-xs font-bold">{item.name}</p>
                                             <p className="text-[10px] text-mb-purple-400 font-bold">
@@ -234,6 +253,7 @@ export default function PhonghientaiPage() {
                                     </div>
                                     <div className="flex items-center gap-2 bg-black/40 rounded-xl p-1">
                                         <button
+                                            type="button"
                                             onClick={() =>
                                                 setCart(prev =>
                                                     prev.map(x =>
@@ -247,6 +267,7 @@ export default function PhonghientaiPage() {
                                         </button>
                                         <span className="text-xs font-bold w-4 text-center">{item.qty}</span>
                                         <button
+                                            type="button"
                                             onClick={() =>
                                                 setCart(prev =>
                                                     prev.map(x => (x.id === item.id ? { ...x, qty: x.qty + 1 } : x))
@@ -257,6 +278,7 @@ export default function PhonghientaiPage() {
                                             +
                                         </button>
                                         <button
+                                            type="button"
                                             onClick={() => setCart(prev => prev.filter(x => x.id !== item.id))}
                                             className="w-8 h-8 text-rose-500"
                                         >
@@ -275,6 +297,7 @@ export default function PhonghientaiPage() {
                                     </div>
                                     <div className="mt-6 flex justify-center">
                                         <button
+                                            type="button"
                                             onClick={() => setConfirmOpen(true)}
                                             disabled={!cart.some(i => i.selected)}
                                             className="bg-mb-purple-600 hover:bg-mb-purple-500 disabled:bg-gray-700 px-12 py-4 rounded-2xl font-black text-xs uppercase"
@@ -290,19 +313,25 @@ export default function PhonghientaiPage() {
             </main>
 
             {confirmOpen && (
-                <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+                <div
+                    className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50"
+                    role="dialog"
+                    aria-modal="true"
+                >
                     <div className="glass-card max-w-sm w-full rounded-3xl p-8 text-center">
                         <h3 className="text-xl font-black mb-2 uppercase">GỌI DỊCH VỤ?</h3>
                         <p className="text-gray-400 text-xs mb-6">
                             Món đã gọi sẽ không được hoàn trả/hủy. Xác nhận đặt món?
                         </p>
                         <button
+                            type="button"
                             onClick={confirmOrder}
                             className="w-full py-3 bg-mb-purple-600 rounded-xl font-bold uppercase text-xs mb-3"
                         >
                             Xác nhận
                         </button>
                         <button
+                            type="button"
                             onClick={() => setConfirmOpen(false)}
                             className="w-full py-2 text-gray-500 text-xs font-bold uppercase"
                         >
@@ -313,16 +342,22 @@ export default function PhonghientaiPage() {
             )}
 
             {supportOpen && (
-                <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+                <div
+                    className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50"
+                    role="dialog"
+                    aria-modal="true"
+                >
                     <div className="glass-card max-w-md w-full rounded-3xl overflow-hidden border border-white/10 bg-[#161b2e]">
                         <div className="flex border-b border-white/5 bg-white/5">
                             <button
+                                type="button"
                                 onClick={() => setSupportTab('new')}
                                 className={`flex-1 py-4 text-[10px] uppercase tracking-widest ${supportTab === 'new' ? 'border-b-2 border-rose-500 text-white font-bold' : 'text-gray-500'}`}
                             >
                                 Gửi yêu cầu
                             </button>
                             <button
+                                type="button"
                                 onClick={() => setSupportTab('history')}
                                 className={`flex-1 py-4 text-[10px] uppercase tracking-widest ${supportTab === 'history' ? 'border-b-2 border-rose-500 text-white font-bold' : 'text-gray-500'}`}
                             >
@@ -337,9 +372,10 @@ export default function PhonghientaiPage() {
                                         onChange={e => setSupportNote(e.target.value)}
                                         rows={4}
                                         placeholder="Mô tả vấn đề bạn gặp phải..."
-                                        className="w-full bg-black/20 border border-white/10 px-4 py-3 rounded-xl text-sm text-white outline-none mb-4"
+                                        className="w-full bg-black/20 border border-white/10 px-4 py-3 rounded-xl text-sm text-white mb-4 focus:border-[#8b5cf6] focus:ring-2 focus:ring-[#8b5cf6]/20"
                                     />
                                     <button
+                                        type="button"
                                         onClick={sendSupport}
                                         className="w-full py-3 bg-rose-500 hover:bg-rose-600 rounded-xl font-black text-xs uppercase"
                                     >
@@ -365,6 +401,7 @@ export default function PhonghientaiPage() {
                                 </div>
                             )}
                             <button
+                                type="button"
                                 onClick={() => setSupportOpen(false)}
                                 className="w-full mt-6 text-gray-500 hover:text-white text-[10px] font-bold uppercase"
                             >

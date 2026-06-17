@@ -66,36 +66,56 @@ export default function DangNhapPage() {
                     <h2 className="text-xl font-bold mb-6 text-center">Đăng nhập tài khoản</h2>
 
                     {errorMessage && (
-                        <div className="mb-6 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center gap-3 text-rose-400 text-sm">
+                        <div
+                            className="mb-6 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center gap-3 text-rose-400 text-sm"
+                            role="alert"
+                            aria-live="polite"
+                        >
                             <span>{errorMessage}</span>
                         </div>
                     )}
 
                     <form onSubmit={handleLogin} className="space-y-5">
                         <div>
-                            <label className="block text-xs font-semibold text-[#c4b5fd] uppercase tracking-wider mb-2">
+                            <label
+                                htmlFor="login-username"
+                                className="block text-xs font-semibold text-[#c4b5fd] uppercase tracking-wider mb-2"
+                            >
                                 Số điện thoại
                             </label>
                             <input
+                                id="login-username"
+                                name="username"
+                                autoComplete="username"
+                                spellCheck={false}
                                 value={username}
                                 onChange={e => setUsername(e.target.value)}
                                 type="text"
                                 className="w-full bg-black/20 border border-white/10 rounded-xl py-3.5 px-4 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] transition-all"
-                                placeholder="Nhập tài khoản của bạn"
+                                placeholder="Nhập tài khoản của bạn…"
                             />
                         </div>
 
                         <div>
                             <div className="flex items-center justify-between mb-2">
-                                <label className="block text-xs font-semibold text-[#c4b5fd] uppercase tracking-wider">
+                                <label
+                                    htmlFor="login-password"
+                                    className="block text-xs font-semibold text-[#c4b5fd] uppercase tracking-wider"
+                                >
                                     Mật khẩu
                                 </label>
-                                <a href="#" className="text-xs text-[#8b5cf6] hover:text-[#c4b5fd] transition-colors">
+                                <button
+                                    type="button"
+                                    className="text-xs text-[#8b5cf6] hover:text-[#c4b5fd] transition-colors"
+                                >
                                     Quên mật khẩu?
-                                </a>
+                                </button>
                             </div>
                             <div className="relative">
                                 <input
+                                    id="login-password"
+                                    name="password"
+                                    autoComplete="current-password"
                                     value={password}
                                     onChange={e => setPassword(e.target.value)}
                                     type={showPassword ? 'text' : 'password'}
@@ -106,6 +126,7 @@ export default function DangNhapPage() {
                                     type="button"
                                     onClick={() => setShowPassword(v => !v)}
                                     className="absolute inset-y-0 right-0 pr-4 text-gray-500 hover:text-white transition-colors"
+                                    aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
                                 >
                                     {showPassword ? 'Ẩn' : 'Hiện'}
                                 </button>
@@ -126,7 +147,7 @@ export default function DangNhapPage() {
                             disabled={isLoading}
                             className="w-full bg-[#8b5cf6] hover:bg-[#6d28d9] text-white font-bold py-3.5 rounded-xl transition-all shadow-[0_4px_15px_rgba(139,92,246,0.3)] hover:shadow-[0_4px_25px_rgba(139,92,246,0.5)] disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                            {isLoading ? 'Đang xử lý...' : 'Đăng Nhập Ngay'}
+                            {isLoading ? 'Đang xử lý…' : 'Đăng Nhập Ngay'}
                         </button>
                     </form>
                 </div>

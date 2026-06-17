@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 
@@ -6,6 +6,7 @@ import Logo from '@/components/Logo'
 
 export default function HomePage() {
     const [isOpen, setIsOpen] = useState(false)
+    const [showScrollTop, setShowScrollTop] = useState(false)
     // Mock data danh sách dịch vụ ẩm thực
     const initialServices = [
         {
@@ -135,6 +136,19 @@ export default function HomePage() {
         return new Intl.NumberFormat('vi-VN').format(price) + 'đ'
     }
 
+    useEffect(() => {
+        const handleScroll = () => setShowScrollTop(window.scrollY > 500)
+
+        handleScroll()
+        window.addEventListener('scroll', handleScroll, { passive: true })
+
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
     return (
         <div className="bg-[#0f172a] bg-gradient-to-br from-[#1e1b4b] to-[#0f172a] min-h-screen text-slate-200 overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif]">
             {/* HEADER */}
@@ -166,7 +180,7 @@ export default function HomePage() {
                     <div className="flex items-center gap-3">
                         {/* Nút Đặt phòng ngay (Ẩn bớt padding trên mobile để tránh tràn) */}
                         <Link
-                            to="/pages/datphong"
+                            to="/pages/DatPhong"
                             className="bg-[#7c3aed] hover:bg-[#8b5cf6] px-4 py-2 sm:px-6 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all shadow-lg shadow-purple-600/30 text-white whitespace-nowrap"
                         >
                             Đặt phòng ngay
@@ -174,9 +188,11 @@ export default function HomePage() {
 
                         {/* HAMBURGER BUTTON (Chỉ hiện trên Mobile < md) */}
                         <button
+                            type="button"
                             onClick={() => setIsOpen(!isOpen)}
-                            className="p-2 text-gray-400 hover:text-white focus:outline-none md:hidden transition"
-                            aria-label="Toggle Menu"
+                            className="p-2 text-gray-400 hover:text-white md:hidden transition-colors rounded-lg"
+                            aria-label={isOpen ? 'Đóng menu' : 'Mở menu'}
+                            aria-expanded={isOpen}
                         >
                             {isOpen ? (
                                 // Icon Đóng (X)
@@ -257,7 +273,7 @@ export default function HomePage() {
                     <span className="inline-block px-4 py-1.5 mb-6 rounded-full bg-[#7c3aed]/10 border border-[#8b5cf6]/20 text-[#a78bfa] text-xs font-bold uppercase tracking-widest">
                         KIẾN TẠO TRẢI NGHIỆM GIẢI TRÍ MỚI
                     </span>
-                    <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tight text-white uppercase">
+                    <h1 className="text-4xl sm:text-5xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tight text-white uppercase text-balance">
                         ÁNH SÁNG CỰC CHILL <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#a78bfa] to-indigo-400">
                             ÂM THANH CỰC CHÁY
@@ -270,7 +286,7 @@ export default function HomePage() {
 
                     <div className="flex flex-col sm:flex-row gap-5 justify-center">
                         <Link
-                            to={'pages/datphong'}
+                            to={'pages/DatPhong'}
                             className="px-10 py-5 bg-[#7c3aed] text-white rounded-2xl font-extrabold text-lg hover:scale-105 transition-all shadow-2xl shadow-mb-purple-600/50"
                         >
                             Đặt phòng ngay
@@ -518,21 +534,27 @@ export default function HomePage() {
                         </h2>
 
                         {/* Các nút bấm lọc chuyển sang React State */}
-                        <div className="flex justify-center gap-3 mt-8">
+                        <div className="flex flex-wrap justify-center gap-3 mt-8">
                             <button
+                                type="button"
                                 onClick={() => handleFilterChange('all')}
+                                aria-pressed={filter === 'all'}
                                 className={`px-6 py-2 rounded-xl font-bold transition-all border border-white/10 text-sm ${filter === 'all' ? 'bg-[#7c3aed] shadow-[0_0_15px_rgba(139,92,246,0.4)] text-white' : 'bg-white/5 text-gray-400'}`}
                             >
                                 Tất cả
                             </button>
                             <button
+                                type="button"
                                 onClick={() => handleFilterChange('food')}
+                                aria-pressed={filter === 'food'}
                                 className={`px-6 py-2 rounded-xl font-bold transition-all border border-white/10 text-sm ${filter === 'food' ? 'bg-[#7c3aed] shadow-[0_0_15px_rgba(139,92,246,0.4)] text-white' : 'bg-white/5 text-gray-400'}`}
                             >
                                 Món ăn
                             </button>
                             <button
+                                type="button"
                                 onClick={() => handleFilterChange('drink')}
+                                aria-pressed={filter === 'drink'}
                                 className={`px-6 py-2 rounded-xl font-bold transition-all border border-white/10 text-sm ${filter === 'drink' ? 'bg-[#7c3aed] shadow-[0_0_15px_rgba(139,92,246,0.4)] text-white' : 'bg-white/5 text-gray-400'}`}
                             >
                                 Đồ uống
@@ -551,6 +573,9 @@ export default function HomePage() {
                                     <img
                                         src={item.img}
                                         alt={item.name}
+                                        width="400"
+                                        height="176"
+                                        loading="lazy"
                                         className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
                                     />
                                     <div className="absolute top-4 left-4 px-3 py-1 bg-[#0f172a]/80 backdrop-blur-md rounded-lg text-[10px] font-bold text-[#a78bfa] border border-white/10">
@@ -574,6 +599,7 @@ export default function HomePage() {
                     <div className="mt-16 text-center">
                         {hasMore ? (
                             <button
+                                type="button"
                                 onClick={() => setLimit(prev => prev + 4)}
                                 className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-bold border border-white/10 transition-all hover:scale-105 active:scale-95 shadow-xl"
                             >
@@ -595,6 +621,7 @@ export default function HomePage() {
                         ) : (
                             initialServices.filter(s => (filter === 'all' ? true : s.type === filter)).length > 8 && (
                                 <button
+                                    type="button"
                                     onClick={() => setLimit(8)}
                                     className="px-8 py-4 bg-[#7c3aed]/10 text-[#a78bfa] rounded-2xl font-bold border border-[#8b5cf6]/20 transition-all hover:bg-[#7c3aed]/20"
                                 >
@@ -613,6 +640,19 @@ export default function HomePage() {
                 </p>
                 <p className="text-xs mt-2 italic text-gray-700 underline">Địa điểm: 122 Trường Chinh, An Cựu, Huế.</p>
             </footer>
+
+            <button
+                type="button"
+                onClick={scrollToTop}
+                aria-label="Cuộn lên đầu trang"
+                className={`fixed bottom-5 right-5 z-[60] w-12 h-12 rounded-2xl bg-[#7c3aed] text-white border border-white/10 shadow-2xl shadow-purple-600/30 flex items-center justify-center transition-[opacity,transform,background-color] duration-300 hover:bg-[#8b5cf6] active:scale-95 ${
+                    showScrollTop ? 'opacity-100 translate-y-0' : 'pointer-events-none opacity-0 translate-y-4'
+                }`}
+            >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                </svg>
+            </button>
         </div>
     )
 }

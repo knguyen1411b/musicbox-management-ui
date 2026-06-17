@@ -26,8 +26,8 @@ export default function DashboardNhanVienPage() {
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#8b5cf6] to-[#7c3aed] flex items-center justify-center text-white shadow-lg shadow-purple-600/30">
                     <b className="font-['Plus_Jakarta_Sans']">Đ</b>
                 </div>
-                <div className="flex flex-col">
-                    <span className="text-sm font-bold tracking-wide text-white">Nguyễn Quốc Đạt</span>
+                <div className="flex flex-col min-w-0">
+                    <span className="text-sm font-bold tracking-wide text-white truncate">Nguyễn Quốc Đạt</span>
                     <span className="text-[10px] text-[#a78bfa] font-black uppercase tracking-widest mt-0.5">
                         Nhân viên
                     </span>
@@ -38,24 +38,26 @@ export default function DashboardNhanVienPage() {
             <nav className="flex-1 px-4 space-y-3 overflow-y-auto">
                 {/* NHÓM CHỨC NĂNG 1: QUẢN LÝ PHÒNG */}
                 <div className="space-y-1.5">
-                    <div
+                    <button
+                        type="button"
                         onClick={() => setIsRoomGroupOpen(!isRoomGroupOpen)}
-                        className={`px-4 py-3 flex justify-between items-center rounded-xl cursor-pointer transition-all duration-300 ${
+                        className={`w-full px-4 py-3 flex justify-between items-center rounded-xl text-left transition-colors duration-300 ${
                             isRoomGroupOpen
                                 ? 'text-white bg-white/5'
                                 : 'text-gray-400 hover:text-[#a78bfa] hover:bg-white/5'
                         }`}
+                        aria-expanded={isRoomGroupOpen}
                     >
-                        <div className="flex items-center gap-3.5 text-sm font-bold tracking-wide uppercase">
+                        <div className="flex items-center gap-3.5 text-sm font-bold tracking-wide uppercase min-w-0">
                             <LayoutDashboard
                                 className={`w-4 h-4 transition-colors ${isRoomGroupOpen ? 'text-[#8b5cf6]' : 'text-gray-400'}`}
                             />
-                            <span>Quản lý phòng</span>
+                            <span className="truncate">Quản lý phòng</span>
                         </div>
                         <ChevronDown
                             className={`w-4 h-4 transition-transform duration-300 ${isRoomGroupOpen ? 'rotate-180 text-[#8b5cf6]' : 'text-gray-500'}`}
                         />
-                    </div>
+                    </button>
 
                     <div
                         className={`pl-12 space-y-1 transition-all duration-300 overflow-hidden ${isRoomGroupOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}
@@ -116,24 +118,26 @@ export default function DashboardNhanVienPage() {
 
                 {/* NHÓM CHỨC NĂNG 2: TIẾP NHẬN YÊU CẦU */}
                 <div className="space-y-1.5">
-                    <div
+                    <button
+                        type="button"
                         onClick={() => setIsRequestGroupOpen(!isRequestGroupOpen)}
-                        className={`px-4 py-3 flex justify-between items-center rounded-xl cursor-pointer transition-all duration-300 ${
+                        className={`w-full px-4 py-3 flex justify-between items-center rounded-xl text-left transition-colors duration-300 ${
                             isRequestGroupOpen
                                 ? 'text-white bg-white/5'
                                 : 'text-gray-400 hover:text-[#a78bfa] hover:bg-white/5'
                         }`}
+                        aria-expanded={isRequestGroupOpen}
                     >
-                        <div className="flex items-center gap-3.5 text-sm font-bold tracking-wide uppercase">
+                        <div className="flex items-center gap-3.5 text-sm font-bold tracking-wide uppercase min-w-0">
                             <BellRing
                                 className={`w-4 h-4 transition-colors ${isRequestGroupOpen ? 'text-[#8b5cf6]' : 'text-gray-400'}`}
                             />
-                            <span>Tiếp nhận yêu cầu</span>
+                            <span className="truncate">Tiếp nhận yêu cầu</span>
                         </div>
                         <ChevronDown
                             className={`w-4 h-4 transition-transform duration-300 ${isRequestGroupOpen ? 'rotate-180 text-[#8b5cf6]' : 'text-gray-500'}`}
                         />
-                    </div>
+                    </button>
 
                     <div
                         className={`pl-12 space-y-1 transition-all duration-300 overflow-hidden ${isRequestGroupOpen ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'}`}
@@ -190,7 +194,9 @@ export default function DashboardNhanVienPage() {
 
             {/* --- SIDEBAR TRÊN ĐIỆN THOẠI (DRAWER CHẠY TRƯỢT) --- */}
             {isSidebarOpen && (
-                <div
+                <button
+                    type="button"
+                    aria-label="Đóng menu nhân viên"
                     onClick={() => setIsSidebarOpen(false)}
                     className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
                 />
@@ -208,6 +214,7 @@ export default function DashboardNhanVienPage() {
                 {/* Thanh Top Header di động */}
                 <header className="lg:hidden flex items-center justify-between px-6 py-4 bg-[#0f172a]/80 border-b border-white/5 backdrop-blur-xl sticky top-0 z-30">
                     <button
+                        type="button"
                         onClick={() => setIsSidebarOpen(true)}
                         className="w-10 h-10 bg-white/5 border border-white/5 rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition"
                         aria-label="Open Menu"

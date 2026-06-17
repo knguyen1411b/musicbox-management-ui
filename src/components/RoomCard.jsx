@@ -13,6 +13,9 @@ export default function RoomCard({ room, onBook }) {
             <div className="relative h-44 overflow-hidden">
                 <img
                     src={room.img}
+                    alt={`Phòng ${room.id}`}
+                    width="400"
+                    height="176"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div
@@ -22,9 +25,11 @@ export default function RoomCard({ room, onBook }) {
                 </div>
             </div>
             <div className="p-5 flex flex-col flex-grow">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-bold">Phòng {room.id}</h3>
-                    <span className={`text-[9px] font-bold px-2 py-1 rounded border ${loaiClass}`}>{room.loai}</span>
+                <div className="flex justify-between items-center gap-3 mb-4 min-w-0">
+                    <h3 className="text-lg font-bold truncate">Phòng {room.id}</h3>
+                    <span className={`text-[9px] font-bold px-2 py-1 rounded border shrink-0 ${loaiClass}`}>
+                        {room.loai}
+                    </span>
                 </div>
                 <div className="grid grid-cols-3 gap-1 mb-3">
                     <div className="bg-white/5 p-2 rounded-lg text-center">
@@ -47,9 +52,10 @@ export default function RoomCard({ room, onBook }) {
                     </div>
                 </div>
                 <button
+                    type="button"
                     onClick={() => onBook(room)}
                     disabled={!isAvailable}
-                    className={`w-full py-2.5 rounded-xl font-bold text-xs ${isAvailable ? 'bg-mb-purple-600 hover:bg-mb-purple-500 shadow-lg shadow-mb-purple-600/20' : 'bg-gray-800 text-gray-600 cursor-not-allowed'} uppercase transition-all`}
+                    className={`w-full py-2.5 rounded-xl font-bold text-xs ${isAvailable ? 'bg-mb-purple-600 hover:bg-mb-purple-500 shadow-lg shadow-mb-purple-600/20' : 'bg-gray-800 text-gray-600 cursor-not-allowed'} uppercase transition-colors`}
                 >
                     {isAvailable ? 'Đặt phòng ngay' : 'Đang phục vụ'}
                 </button>

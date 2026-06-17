@@ -90,11 +90,12 @@ export default function PhongHatPage() {
 
             <div className="relative z-10 max-w-7xl mx-auto pb-2 flex items-center justify-between gap-4">
                 {/* NÚT TRỞ VỀ PHÒNG HIỆN TẠI */}
-                <Link to="/pages/phonghientai">
-                    <button className="flex items-center gap-2 py-2 px-1 text-sm font-medium text-[#c4b5fd] hover:text-white transition-all duration-200 group">
-                        <ArrowLeft className="w-4 h-4 text-[#8b5cf6] group-hover:-translate-x-1 transition-transform duration-200" />
-                        <span>Trở về phòng hiện tại</span>
-                    </button>
+                <Link
+                    to="/pages/phonghientai"
+                    className="flex items-center gap-2 py-2 px-1 text-sm font-medium text-[#c4b5fd] hover:text-white transition-colors duration-200 group"
+                >
+                    <ArrowLeft className="w-4 h-4 text-[#8b5cf6] group-hover:-translate-x-1 transition-transform duration-200" />
+                    <span>Trở về phòng hiện tại</span>
                 </Link>
 
                 {/* HIỂN THỊ TÊN NGƯỜI DÙNG KHI ĐÃ ĐĂNG NHẬP/NHẬP TÊN */}
@@ -127,6 +128,7 @@ export default function PhongHatPage() {
 
                             {/* NÚT CHIA SẺ LIÊN KẾT PHÒNG HÁT */}
                             <button
+                                type="button"
                                 onClick={handleShareLink}
                                 className={`p-2 rounded-xl border transition-all duration-300 relative group active:scale-95 flex items-center gap-1.5 text-xs font-medium ${
                                     copied
@@ -155,11 +157,13 @@ export default function PhongHatPage() {
                         <div className="relative flex items-center">
                             <input
                                 type="text"
+                                name="songSearch"
+                                autoComplete="off"
                                 defaultValue="Mưa trên biển"
-                                placeholder="Tìm bài hát..."
-                                className="w-full bg-black/20 border border-white/10 focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] rounded-xl pl-4 pr-10 py-3 text-sm outline-none transition-all placeholder:text-slate-400"
+                                placeholder="Tìm bài hát…"
+                                className="w-full bg-black/20 border border-white/10 focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] rounded-xl pl-4 pr-10 py-3 text-sm transition-colors placeholder:text-slate-400"
                             />
-                            <Search className="absolute right-3 w-5 h-5 text-[#c4b5fd]" />
+                            <Search className="absolute right-3 w-5 h-5 text-[#c4b5fd]" aria-hidden="true" />
                         </div>
                     </div>
 
@@ -179,7 +183,10 @@ export default function PhongHatPage() {
                                     <div className="relative w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-slate-800">
                                         <img
                                             src={videoPlaceholder}
-                                            alt="thumbnail"
+                                            alt={`Thumbnail ${song.title}`}
+                                            width="80"
+                                            height="56"
+                                            loading="lazy"
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                                         />
                                         <span className="absolute bottom-1 right-1 text-[10px] bg-black/60 px-1 rounded text-slate-300">
@@ -195,7 +202,9 @@ export default function PhongHatPage() {
                                     </div>
 
                                     <button
+                                        type="button"
                                         className="self-center p-2 rounded-lg bg-[#8b5cf6] hover:bg-[#6d28d9] active:scale-95 text-white shadow-lg shadow-[#8b5cf6]/20 transition-all"
+                                        aria-label={`Thêm ${song.title} vào hàng chờ`}
                                         title="Thêm vào hàng chờ"
                                     >
                                         <Plus className="w-4 h-4" />
@@ -214,6 +223,8 @@ export default function PhongHatPage() {
                             <img
                                 src={videoPlaceholder}
                                 alt="Main Video Player"
+                                width="960"
+                                height="540"
                                 className="w-full h-full object-cover opacity-80 filter brightness-90"
                             />
 
@@ -233,7 +244,11 @@ export default function PhongHatPage() {
                                         </h2>
                                     </div>
                                     <div className="flex gap-2">
-                                        <button className="p-2 rounded-lg bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white transition-all">
+                                        <button
+                                            type="button"
+                                            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white transition-all"
+                                            aria-label="Chế độ màn hình"
+                                        >
                                             <Tv className="w-4 h-4 md:w-5 md:h-5" />
                                         </button>
                                     </div>
@@ -241,7 +256,11 @@ export default function PhongHatPage() {
 
                                 {/* Giả lập nút Play ở giữa */}
                                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                                    <button className="w-14 h-14 md:w-18 md:h-18 rounded-full bg-[#8b5cf6]/90 hover:bg-[#8b5cf6] text-white flex items-center justify-center shadow-xl shadow-[#8b5cf6]/40 border border-white/20 hover:scale-105 active:scale-95 transition-all">
+                                    <button
+                                        type="button"
+                                        className="w-14 h-14 md:w-18 md:h-18 rounded-full bg-[#8b5cf6]/90 hover:bg-[#8b5cf6] text-white flex items-center justify-center shadow-xl shadow-[#8b5cf6]/40 border border-white/20 hover:scale-105 active:scale-95 transition-all"
+                                        aria-label="Phát bài hát"
+                                    >
                                         <Play className="w-6 h-6 md:w-8 md:h-8 fill-white translate-x-0.5" />
                                     </button>
                                 </div>
@@ -311,6 +330,7 @@ export default function PhongHatPage() {
                                             {/* CỤM NÚT HOÁN ĐỔI VỊ TRÍ (MỚI THÊM) */}
                                             <div className="flex items-center gap-1 bg-black/20 p-1 rounded-lg border border-white/5">
                                                 <button
+                                                    type="button"
                                                     onClick={() => moveSong(index, 'up')}
                                                     disabled={index === 0}
                                                     className="p-1 rounded bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white disabled:opacity-20 disabled:pointer-events-none transition-all"
@@ -319,6 +339,7 @@ export default function PhongHatPage() {
                                                     <ArrowUp className="w-3.5 h-3.5" />
                                                 </button>
                                                 <button
+                                                    type="button"
                                                     onClick={() => moveSong(index, 'down')}
                                                     disabled={index === playlist.length - 1}
                                                     className="p-1 rounded bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white disabled:opacity-20 disabled:pointer-events-none transition-all"
@@ -330,7 +351,9 @@ export default function PhongHatPage() {
 
                                             {/* NÚT XÓA BÀI HÁT (CẬP NHẬT LẠI TRONG VÒNG LẶP MAP) */}
                                             <button
+                                                type="button"
                                                 onClick={() => handleRequestRemove(song)} // Thay đổi ở đây, truyền cả object 'song' thay vì chỉ truyền id
+                                                aria-label={`Xóa ${song.title} khỏi hàng chờ`}
                                                 className="p-2 rounded-lg bg-white/5 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-transparent hover:border-rose-500/30 active:scale-95 transition-all"
                                                 title="Xóa khỏi hàng chờ"
                                             >
